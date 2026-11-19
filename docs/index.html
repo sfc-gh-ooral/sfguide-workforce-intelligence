@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Workforce Intelligence with Governed HR Data · Snowflake example</title>
+<meta name="description" content="Give HR business partners governed, plain-English answers on headcount, attrition risk, and pay equity, with sensitive fields masked by role. Synthetic data.">
+<meta name="color-scheme" content="light dark">
+<style>
+  :root {
+    --bg: #f6f3ec; --bg2: #fffdf8; --ink: #1d1530; --ink2: #4a4060; --muted: #7c7390; --line: #e6dfd1;
+    --plum: #1b1230; --teal: #0f9d8a; --violet: #7c4dff; --coral: #e8664a;
+    --aurora: linear-gradient(115deg, #13b5a0 0%, #7c4dff 52%, #f07a5a 100%);
+    --card: #fffdf8; --shadow: 0 20px 50px -30px rgba(29, 21, 48, .45);
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    --sans: ui-sans-serif, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #110c1c; --bg2: #171126; --ink: #f1ecfb; --ink2: #c9c0dd; --muted: #948aab; --line: #2a2140;
+      --plum: #0b0714; --teal: #2cc9b2; --violet: #a184ff; --coral: #ff8a6b; --card: #1a132a; --shadow: 0 20px 50px -30px rgba(0,0,0,.9); }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 var(--sans); -webkit-font-smoothing: antialiased; }
+  a { color: var(--violet); }
+  img { max-width: 100%; display: block; }
+  .wrap { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+  .serif { font-family: var(--serif); letter-spacing: -.01em; }
+  .aurora { background: var(--aurora); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .eyebrow { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; font-weight: 700; color: var(--muted); }
+
+  /* top bar */
+  .top { position: sticky; top: 0; z-index: 10; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    background: color-mix(in srgb, var(--bg) 82%, transparent); border-bottom: 1px solid var(--line); }
+  .top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 62px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--ink); text-decoration: none; }
+  .brand i { width: 30px; height: 30px; border-radius: 9px; background: var(--aurora); display: inline-block; }
+  .top nav { display: flex; gap: 20px; font-size: 14px; }
+  .top nav a { color: var(--ink2); text-decoration: none; }
+  .top nav a:hover { color: var(--ink); }
+
+  /* hero */
+  .hero { position: relative; padding: 72px 0 40px; overflow: hidden; }
+  .hero::before { content: ""; position: absolute; inset: -160px -10% auto; height: 520px; z-index: -1;
+    background: radial-gradient(520px 240px at 15% 40%, color-mix(in srgb, var(--teal) 22%, transparent), transparent 70%),
+                radial-gradient(560px 260px at 55% 10%, color-mix(in srgb, var(--violet) 20%, transparent), transparent 70%),
+                radial-gradient(480px 220px at 90% 50%, color-mix(in srgb, var(--coral) 18%, transparent), transparent 70%); }
+  .hero h1 { font-family: var(--serif); font-size: clamp(38px, 6vw, 68px); line-height: 1.04; margin: 14px 0 18px; font-weight: 600; max-width: 15ch; }
+  .lede { font-size: clamp(17px, 2vw, 20px); color: var(--ink2); max-width: 62ch; margin: 0 0 28px; }
+  .ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 28px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 14px; font-weight: 700; text-decoration: none; font-size: 15px; }
+  .btn-a { color: #fff; background: var(--aurora); box-shadow: 0 12px 28px -12px color-mix(in srgb, var(--violet) 80%, transparent); }
+  .btn-g { color: var(--ink); background: var(--card); border: 1px solid var(--line); }
+  .facts { display: flex; flex-wrap: wrap; gap: 10px; }
+  .fact { border: 1px solid var(--line); background: var(--card); border-radius: 999px; padding: 6px 14px; font-size: 13px; color: var(--ink2); }
+  .fact b { color: var(--ink); }
+  .heroshot { margin-top: 44px; border-radius: 22px; overflow: hidden; border: 1px solid var(--line); box-shadow: var(--shadow); }
+
+  /* sections */
+  section { padding: 64px 0; }
+  h2 { font-family: var(--serif); font-size: clamp(28px, 3.6vw, 40px); line-height: 1.12; margin: 8px 0 14px; font-weight: 600; }
+  .sub { color: var(--ink2); max-width: 66ch; margin: 0 0 32px; }
+  .problem { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .tile, .capr, .persona { min-width: 0; }
+  code { overflow-wrap: anywhere; }
+  .tile { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 22px; }
+  .tile h3 { margin: 0 0 6px; font-size: 17px; }
+  .tile p { margin: 0; color: var(--ink2); font-size: 15px; }
+  .tile .n { font-family: var(--serif); font-size: 30px; font-weight: 600; }
+
+  .personas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .persona { border-radius: 20px; padding: 22px; background: var(--card); border: 1px solid var(--line); position: relative; overflow: hidden; }
+  .persona::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 4px; background: var(--pc); }
+  .persona h3 { margin: 4px 0 10px; }
+  .persona ul { margin: 0; padding-left: 18px; color: var(--ink2); font-size: 14.5px; }
+  .role { font: 600 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--pc); }
+
+  /* story */
+  .story { counter-reset: beat; display: grid; gap: 56px; }
+  .beat { display: grid; grid-template-columns: 1fr 1.6fr; gap: 36px; align-items: center; }
+  .beat:nth-child(even) { grid-template-columns: 1.6fr 1fr; }
+  .beat:nth-child(even) .txt { order: 2; }
+  .beat .txt::before { counter-increment: beat; content: counter(beat, decimal-leading-zero); font-family: var(--serif); font-size: 44px; font-weight: 600; display: block; line-height: 1; }
+  .beat .txt::before { background: var(--aurora); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .beat h3 { font-family: var(--serif); font-size: 24px; margin: 10px 0 8px; line-height: 1.2; }
+  .beat p { color: var(--ink2); margin: 0 0 12px; }
+  .cap { display: inline-flex; flex-wrap: wrap; gap: 6px; }
+  .cap span { font-size: 12px; font-weight: 700; color: var(--teal); border: 1px solid color-mix(in srgb, var(--teal) 40%, var(--line)); border-radius: 999px; padding: 3px 10px; }
+  figure { margin: 0; }
+  figure img { border-radius: 18px; border: 1px solid var(--line); box-shadow: var(--shadow); }
+  figcaption { font-size: 13px; color: var(--muted); margin-top: 10px; }
+
+  .caps { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .capr { display: grid; grid-template-columns: 210px 1fr; gap: 14px; padding: 16px 18px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; font-size: 14.5px; }
+  .capr b { color: var(--ink); }
+  .capr span { color: var(--ink2); }
+  .tag { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 99px; margin-left: 6px; color: var(--coral); border: 1px solid color-mix(in srgb, var(--coral) 45%, var(--line)); }
+
+  .run { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  pre { background: var(--plum); color: #ece6fa; border-radius: 16px; padding: 18px; overflow-x: auto; font: 13px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace; margin: 10px 0 0; }
+  .note { border-left: 4px solid var(--coral); background: var(--card); border-radius: 0 16px 16px 0; padding: 18px 20px; color: var(--ink2); }
+  .note b { color: var(--ink); }
+  footer { border-top: 1px solid var(--line); padding: 36px 0 48px; color: var(--muted); font-size: 13.5px; }
+  footer a { color: var(--ink2); }
+
+  @media (max-width: 860px) {
+    .top nav { display: none; }
+    .problem, .personas, .run, .caps { grid-template-columns: 1fr; }
+    .beat, .beat:nth-child(even) { grid-template-columns: 1fr; gap: 18px; }
+    .beat:nth-child(even) .txt { order: 0; }
+    .capr { grid-template-columns: 1fr; gap: 4px; }
+    .hero { padding-top: 44px; }
+    section { padding: 44px 0; }
+  }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#"><i aria-hidden="true"></i>Workforce Intelligence</a>
+    <nav aria-label="Sections"><a href="#story">Walkthrough</a><a href="#governance">Governance</a><a href="#capabilities">Capabilities</a><a href="#run">Run it</a></nav>
+    <a class="btn btn-a" href="try/" style="padding:8px 14px;font-size:14px">Try the example</a>
+  </div>
+</header>
+
+<main>
+  <div class="hero">
+    <div class="wrap">
+      <div class="eyebrow">Snowflake example · Financial services · Human resources</div>
+      <h1>HR answers in plain English, <span class="aurora">governed by role.</span></h1>
+      <p class="lede">A regional bank's HR business partners wait one to two weeks for every new report. Attrition modeling runs quarterly in spreadsheets, pay data sits in separate exports, and every view has to respect who is allowed to see what. This example puts headcount, attrition risk, pay equity, and survey feedback in one app on Snowflake. Masking, row access, and minimum-group-size policies follow every chart, AI summary, and agent answer.</p>
+      <div class="ctas">
+        <a class="btn btn-a" href="try/">Try the example in your browser</a>
+        <a class="btn btn-g" href="https://github.com/sfc-gh-ooral/sfguide-workforce-intelligence">View the repository</a>
+      </div>
+      <div class="facts">
+        <span class="fact"><b>No account needed</b> for the hosted example</span>
+        <span class="fact"><b>Live mode:</b> Enterprise Edition, about 3 minutes of setup</span>
+        <span class="fact"><b>Cost:</b> about half an XSMALL credit, plus Cortex AI tokens</span>
+        <span class="fact"><b>Data:</b> synthetic, about 12,000 employees</span>
+      </div>
+      <figure class="heroshot"><img src="images/01-overview-hrbp.png" width="2000" height="1250" alt="Workforce overview as the HR business partner: Operations headcount, hires, exits, rolling attrition of 18.8 percent, time to fill, and Payment Operations voluntary exits up 265 percent, with row access and masking policy chips"></figure>
+    </div>
+  </div>
+
+  <section>
+    <div class="wrap">
+      <div class="eyebrow">The problem</div>
+      <h2>HR data is sensitive, scattered, and slow to answer.</h2>
+      <div class="problem">
+        <div class="tile"><div class="n aurora">1–2 weeks</div><h3>for every new report</h3><p>HR partners can't query the data themselves, so each question goes into a data-engineering queue.</p></div>
+        <div class="tile"><div class="n aurora">Quarterly</div><h3>attrition models</h3><p>Risk is estimated in spreadsheets after people have already left, not while there's time to act.</p></div>
+        <div class="tile"><div class="n aurora">Many exports</div><h3>and manual equity checks</h3><p>Compensation, performance, hiring, and survey data live apart, so pay-equity work is slow and error-prone.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="governance" style="padding-top:8px">
+    <div class="wrap">
+      <div class="eyebrow">Three personas, one data set</div>
+      <h2>Switch "View as" and the policies change the answer.</h2>
+      <p class="sub">Each persona is a Snowflake role. In live mode the app runs every query, AI call, and agent question as that role, so the policies are enforced by Snowflake, not by the app.</p>
+      <div class="personas">
+        <div class="persona" style="--pc: var(--teal)"><span class="role">WI_HRBP_ROLE</span><h3>HR business partner</h3><ul><li>Row access policy: Operations only</li><li>Masking policy: pay rounded to $10k bands</li><li>Gender and ethnicity masked</li><li>Works at the team level</li></ul></div>
+        <div class="persona" style="--pc: var(--violet)"><span class="role">WI_COMP_ROLE</span><h3>Compensation analyst</h3><ul><li>All business units</li><li>Exact pay and protected attributes for equity analysis</li><li>Employee-level drill-down</li></ul></div>
+        <div class="persona" style="--pc: var(--coral)"><span class="role">WI_CHRO_ROLE</span><h3>CHRO</h3><ul><li>Aggregation policy: groups of 10 or more</li><li>Smaller groups merged into one remainder row</li><li>Pay gaps hidden for small cells</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="story">
+    <div class="wrap">
+      <div class="eyebrow">Walkthrough</div>
+      <h2>Follow one story, persona by persona.</h2>
+      <p class="sub">Every number below comes from the example's synthetic data set. The findings were planted so a walkthrough has something to find.</p>
+      <div class="story">
+        <div class="beat">
+          <div class="txt"><h3>The HR business partner sees banded pay, not salaries.</h3>
+            <p>The same employee records come back from Snowflake with base pay rounded down to a $10k band and protected attributes as <code>***</code>. That's enough to read the pay mix, but not enough to work out what anyone earns.</p>
+            <div class="cap"><span>Masking policies</span><span>Row access policy</span></div></div>
+          <figure><img src="images/02-pay-masked-hrbp.png" width="2000" height="1250" loading="lazy" alt="Pay equity as the HR business partner: a headcount histogram by masked $10k pay band and an employee table with salary bands and masked gender and ethnicity"><figcaption>PAY_MASK and PROTECTED_ATTR_MASK are applied by Snowflake before the data reaches the app.</figcaption></figure>
+        </div>
+        <div class="beat">
+          <div class="txt"><h3>Attrition risk flags Payment Operations.</h3>
+            <p>Teams are ranked by modeled voluntary-exit risk, with the top drivers for each. Payment Operations teams dominate the HRBP's queue after a May 2026 move to rotating shifts. On this synthetic data set, that job family had 186 voluntary exits in six months, against 51 in the six months before.</p>
+            <div class="cap"><span>Snowflake ML Classification</span><span>Dynamic Table features</span></div></div>
+          <figure><img src="images/03-attrition-hrbp.png" width="2000" height="1250" loading="lazy" alt="Attrition risk work queue for the HR business partner: Operations teams ranked by modeled risk, with drivers such as rotating-shift schedule and low engagement, and a manager with more than 15 direct reports"><figcaption>Scores from a SNOWFLAKE.ML.CLASSIFICATION model trained on a weekly-refreshed feature dynamic table.</figcaption></figure>
+        </div>
+        <div class="beat">
+          <div class="txt"><h3>The survey explains why.</h3>
+            <p>Comments are classified by theme and sentiment. In the latest survey, most Payment Operations comments are about schedules and shifts, against 1–3% for other job families. An AI summary pulls the themes together and suggests next steps.</p>
+            <div class="cap"><span>AI_CLASSIFY</span><span>AI_SENTIMENT</span><span>AI_AGG</span></div></div>
+          <figure><img src="images/05-voice-hrbp.png" width="2000" height="1250" loading="lazy" alt="Voice of employee: share of comments about schedules and shifts by job family, with Payment Operations far ahead, an AI summary of the comments, and sample comments about rotating shifts"><figcaption>AI_AGG summarizes only the comments the HRBP's row access policy allows: Operations.</figcaption></figure>
+        </div>
+        <div class="beat">
+          <div class="txt"><h3>The compensation analyst finds a gap that survives the controls.</h3>
+            <p>Within each job family and level, pay is compared after controlling for tenure and latest rating. In Software Engineering L4, women's pay is 6.2% lower than men's after those controls (101 women, 93 men, on this synthetic data set). An AI explanation summarizes what to check next.</p>
+            <div class="cap"><span>Snowflake SQL</span><span>AI_COMPLETE</span></div></div>
+          <figure><img src="images/06-pay-equity-comp.png" width="2000" height="1250" loading="lazy" alt="Pay equity as the compensation analyst: a scatter of raw versus adjusted gaps by cell, with Software Engineering L4 standing out at minus 6.2 percent adjusted, and an AI explanation"><figcaption>The adjusted gap is computed in SQL with window functions. AI_COMPLETE explains the selected cell.</figcaption></figure>
+        </div>
+        <div class="beat">
+          <div class="txt"><h3>The CHRO sees aggregates, with small groups suppressed.</h3>
+            <p>For the CHRO, any group under 10 people is merged into one remainder row with blank labels. That's 1,515 people across hundreds of small cells. Team drill-downs aren't available, and pay gaps for small cells come back blank.</p>
+            <div class="cap"><span>Aggregation policy</span><span>Conditional masking</span></div></div>
+          <figure><img src="images/07-attrition-chro.png" width="2000" height="1250" loading="lazy" alt="Attrition risk as the CHRO: risk by job family, location, and level, plus a remainder group of 1,515 people merged by the aggregation policy"><figcaption>MIN_GROUP_10 is an aggregation policy. Snowflake creates the remainder group itself.</figcaption></figure>
+        </div>
+        <div class="beat">
+          <div class="txt"><h3>Ask in plain English. The policies still apply.</h3>
+            <p>A Cortex Agent answers questions through a semantic view. Ask about Technology requisitions as the HRBP and the agent explains that the data is hidden for that role, instead of returning a misleading zero. Ask as the compensation analyst and you get the number.</p>
+            <div class="cap"><span>Cortex Agents</span><span>Cortex Analyst</span><span>Semantic View</span></div></div>
+          <figure><img src="images/08-ask-hrbp.png" width="2000" height="1250" loading="lazy" alt="Ask HR data as the HR business partner: answers about Payment Operations exits and a reply that Technology requisitions aren't visible to this role"><figcaption>The agent runs as the caller's role, so its generated SQL passes through the same policies.</figcaption></figure>
+        </div>
+        <div class="beat">
+          <div class="txt"><h3>People make the call, and it's recorded.</h3>
+            <p>From a team or a pay cell, the reader drafts a conversation plan with AI, then records a decision: flag, assign, escalate, or add a note. In live mode each decision is written to a Snowflake table stamped with the role that made it.</p>
+            <div class="cap"><span>AI_COMPLETE</span><span>Snowflake table</span></div></div>
+          <figure><img src="images/04-team-brief-hrbp.png" width="2000" height="1250" loading="lazy" alt="Team drill-down: modeled risk, top drivers, people by risk band, and an AI-drafted conversation plan for the manager"><figcaption>The conversation plan uses team-level inputs only. Individual scores aren't sent to the model.</figcaption></figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="capabilities">
+    <div class="wrap">
+      <div class="eyebrow">What powers it</div>
+      <h2>Snowflake capabilities, as used in live mode.</h2>
+      <p class="sub">Each capability below ran in live mode against the example's synthetic data. Links go to the Snowflake documentation.</p>
+      <div class="caps">
+        <div class="capr"><b><a href="https://docs.snowflake.com/en/user-guide/security-column-ddm-intro">Masking policies</a></b><span>Pay rounded to $10k bands and protected attributes hidden for the HRBP. Pay gaps hidden for the CHRO's small cells (conditional masking).</span></div>
+        <div class="capr"><b><a href="https://docs.snowflake.com/en/user-guide/security-row-intro">Row access policy</a></b><span>A role-to-business-unit mapping table limits the HRBP to Operations on every table.</span></div>
+        <div class="capr"><b><a href="https://docs.snowflake.com/en/user-guide/aggregation-policies">Aggregation policy</a></b><span>The CHRO must aggregate, and groups under 10 people are merged into a remainder group.</span></div>
+        <div class="capr"><b><a href="https://docs.snowflake.com/en/user-guide/ml-functions/classification">ML Classification</a></b><span>Attrition model trained in SQL, with feature importance used to weight team drivers.</span></div>
+        <div class="capr"><b><a href="https://docs.snowflake.com/en/user-guide/dynamic-tables-about">Dynamic table</a> and <a href="https://docs.snowflake.com/en/user-guide/tasks-intro">task</a></b><span>Model features refresh weekly. A weekly retraining task is created suspended.</span></div>
+        <div class="capr"><b><a href="https://docs.snowflake.com/en/user-guide/snowflake-cortex/aisql">Cortex AI functions</a></b><span>AI_SENTIMENT and AI_CLASSIFY label about 10,700 comments. AI_AGG and AI_COMPLETE write the summaries and explanations.</span></div>
+        <div class="capr"><b><a href="https://docs.snowflake.com/en/user-guide/views-semantic/overview">Semantic view</a></b><span>Business definitions for headcount, exits, and requisitions.</span></div>
+        <div class="capr"><b><a href="https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-agents">Cortex Agents</a></b><span>Plain-English Q&amp;A through Cortex Analyst, running as the caller's role.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="run">
+    <div class="wrap">
+      <div class="eyebrow">Run it</div>
+      <h2>Two ways to use the example.</h2>
+      <div class="run">
+        <div class="tile"><h3>No account: on your machine</h3><p>Runs on bundled synthetic data, with scripted AI responses labeled as samples.</p>
+<pre>git clone https://github.com/sfc-gh-ooral/sfguide-workforce-intelligence
+cd sfguide-workforce-intelligence
+npm install &amp;&amp; npm run dev</pre></div>
+        <div class="tile"><h3>Live: in your Snowflake account</h3><p>Run <code>sql/setup.sql</code> as ACCOUNTADMIN in a Snowsight worksheet (about 3 minutes on XSMALL), add key-pair settings to <code>.env.local</code>, and switch the app to Live. <code>sql/cleanup.sql</code> removes everything.</p>
+<pre>Requires Enterprise Edition (policies) and
+Cortex AI, Cortex Analyst, and Cortex Agents
+in your region or cross-region inference.</pre></div>
+      </div>
+      <p style="margin-top:18px"><a href="https://github.com/sfc-gh-ooral/sfguide-workforce-intelligence#readme">Read the full guide in the README</a>, including the objects created, expected cost, and known limitations.</p>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="note"><b>Important.</b> This is an illustrative example on synthetic data. The people, demographics, and findings are generated, and the logic is simplified. Attrition risk scores are illustrative and must not be used for decisions about individual employees. Nothing here is HR, legal, regulatory, or compliance advice, and it isn't production-ready. Review and test before any use with real data.</div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    Workforce Intelligence is an illustrative example provided as-is under the <a href="https://github.com/sfc-gh-ooral/sfguide-workforce-intelligence/blob/main/LICENSE">Apache 2.0 license</a>. It isn't an official Snowflake product and isn't supported by Snowflake Support. Snowflake is a trademark of Snowflake Inc.<br>
+    Owner: Oz Oral · Last reviewed: November 2026 · <a href="https://github.com/sfc-gh-ooral/sfguide-workforce-intelligence">Repository</a>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,87 @@
+{
+  "asOf": "2026-10-31",
+  "seed": 20261119,
+  "rowCounts": {
+    "employees": 15500,
+    "compensation": 15500,
+    "performance": 46552,
+    "promotions": 6079,
+    "terminations": 3517,
+    "requisitions": 660,
+    "engagement_survey": 32031
+  },
+  "minGroup": 10,
+  "stories": {
+    "payOps": {
+      "family": "Payment Operations",
+      "bu": "Operations",
+      "changeMonth": "2026-05"
+    },
+    "payGap": {
+      "family": "Software Engineering",
+      "level": "L4",
+      "cell": {
+        "family": "Software Engineering",
+        "level": "L4",
+        "bu": "Technology",
+        "nFemale": 101,
+        "nMale": 93,
+        "rawGap": -6.3,
+        "adjustedGap": -6.2,
+        "medianBase": 146100
+      }
+    },
+    "flightTeam": {
+      "teamId": "E107221",
+      "team": "Client Service · Charlotte (Sato)",
+      "bu": "Wealth Management",
+      "family": "Client Service",
+      "location": "Charlotte",
+      "manager": "Riley N. Sato",
+      "size": 13,
+      "span": 12,
+      "avgRisk": 0.652,
+      "highRisk": 12,
+      "volExits12m": 0,
+      "openReqs": 6,
+      "openReqs60": 6,
+      "avgEngagement": 2.05,
+      "drivers": [
+        {
+          "driver": "Open-req backlog on team",
+          "weight": 1.75
+        },
+        {
+          "driver": "Low engagement score",
+          "weight": 0.92
+        },
+        {
+          "driver": "Pay below band midpoint",
+          "weight": 0.69
+        }
+      ]
+    },
+    "wideSpans": [
+      {
+        "manager": "Kara D. Dubois",
+        "team": "Infrastructure · Charlotte (Dubois)",
+        "span": 17
+      },
+      {
+        "manager": "Mara M. Marsh",
+        "team": "Branch Banking · Dallas (Marsh)",
+        "span": 19
+      },
+      {
+        "manager": "Lena T. Kaur",
+        "team": "Contact Center · Phoenix (Kaur)",
+        "span": 17
+      },
+      {
+        "manager": "Talia K. Iversen",
+        "team": "Loan Operations · Jacksonville (Iversen)",
+        "span": 17
+      }
+    ]
+  }
+}

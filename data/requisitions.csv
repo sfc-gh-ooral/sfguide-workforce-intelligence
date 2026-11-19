@@ -1,0 +1,661 @@
+req_id,bu,job_family,location,level,hiring_manager_id,opened_date,filled_date,status
+R5001,Technology,Infrastructure,Charlotte,L3,E103882,2026-02-26,2026-04-18,Filled
+R5002,Technology,Data & Analytics,Phoenix,L2,E105531,2026-06-03,2026-07-24,Filled
+R5003,Commercial Banking,Credit Analysis,Charlotte,L1,E103465,2026-02-28,2026-03-29,Filled
+R5004,Risk & Finance,Finance & Accounting,Minneapolis,L2,E102620,2026-09-21,,Open
+R5005,Operations,Loan Operations,Charlotte,L1,E100378,2026-08-14,2026-10-12,Filled
+R5006,Operations,Payment Operations,Charlotte,L3,E101294,2026-04-23,2026-06-09,Filled
+R5007,Risk & Finance,Risk Management,Dallas,L2,E111687,2026-02-10,2026-03-26,Filled
+R5008,Risk & Finance,Risk Management,Charlotte,L2,E113494,2026-02-27,,Open
+R5009,Risk & Finance,Finance & Accounting,Chicago,L3,E102021,2026-07-16,2026-09-08,Filled
+R5010,Commercial Banking,Commercial Lending,Denver,L3,E108134,2026-07-21,2026-08-18,Filled
+R5011,Wealth Management,Client Service,New York,L2,E102659,2026-08-08,2026-09-20,Filled
+R5012,Operations,Payment Operations,Jacksonville,L2,E101187,2026-04-17,2026-06-13,Filled
+R5013,Wealth Management,Client Service,Chicago,L2,E107794,2026-08-13,,Open
+R5014,Commercial Banking,Credit Analysis,Denver,L2,E105646,2026-07-18,2026-08-31,Filled
+R5015,Technology,Software Engineering,Charlotte,L1,E101485,2026-09-04,2026-10-20,Filled
+R5016,Commercial Banking,Treasury Services,Phoenix,L1,E112461,2026-01-14,2026-02-12,Filled
+R5017,Wealth Management,Financial Advisory,Charlotte,L1,E105288,2026-05-13,2026-06-21,Filled
+R5018,Operations,Reconciliation,New York,L2,E110581,2026-09-17,2026-10-19,Filled
+R5019,Retail Banking,Contact Center,Chicago,L3,E103804,2026-01-07,2026-02-19,Filled
+R5020,Retail Banking,Branch Banking,New York,L2,E112489,2026-05-08,2026-06-23,Filled
+R5021,Retail Banking,Branch Banking,Minneapolis,L4,E109602,2026-02-17,2026-04-01,Filled
+R5022,Commercial Banking,Commercial Lending,Charlotte,L2,E109670,2026-06-16,2026-08-06,Filled
+R5023,Retail Banking,Branch Banking,Charlotte,L3,E107087,2026-07-12,2026-08-23,Filled
+R5024,Operations,Reconciliation,New York,L2,E101698,2026-10-20,,Open
+R5025,Operations,Loan Operations,Charlotte,L3,E115329,2026-09-10,2026-10-15,Filled
+R5026,Operations,Loan Operations,Minneapolis,L4,E104343,2026-06-27,2026-08-30,Filled
+R5027,Retail Banking,Branch Banking,Denver,L4,E108238,2026-02-04,2026-04-01,Filled
+R5028,Operations,Reconciliation,New York,L4,E105652,2026-09-03,2026-10-21,Filled
+R5029,Wealth Management,Financial Advisory,New York,L4,E105505,2026-07-08,2026-08-17,Filled
+R5030,Retail Banking,Branch Banking,Jacksonville,L3,E102001,2026-02-25,2026-04-04,Filled
+R5031,Risk & Finance,Finance & Accounting,Chicago,L2,E101568,2026-05-31,2026-07-14,Filled
+R5032,Wealth Management,Portfolio Management,Dallas,L3,E102941,2026-07-09,2026-08-31,Filled
+R5033,Commercial Banking,Commercial Lending,Phoenix,L2,E111067,2026-04-06,2026-05-09,Filled
+R5034,Risk & Finance,Compliance,Chicago,L2,E102126,2026-08-06,2026-09-09,Filled
+R5035,Operations,Loan Operations,Denver,L4,E105684,2026-04-20,2026-05-26,Filled
+R5036,Retail Banking,Contact Center,New York,L2,E105308,2026-06-16,2026-08-15,Filled
+R5037,Technology,Software Engineering,New York,L3,E112962,2026-05-26,2026-08-02,Filled
+R5038,Retail Banking,Contact Center,New York,L3,E107118,2026-04-26,2026-06-18,Filled
+R5039,Retail Banking,Branch Banking,Minneapolis,L4,E112879,2026-07-22,2026-09-15,Filled
+R5040,Operations,Reconciliation,New York,L3,E105652,2026-04-29,2026-07-01,Filled
+R5041,Risk & Finance,Risk Management,New York,L1,E112094,2026-06-04,2026-08-10,Filled
+R5042,Operations,Payment Operations,Phoenix,L3,E105933,2026-03-11,2026-04-09,Filled
+R5043,Operations,Loan Operations,Denver,L4,E115480,2026-02-05,2026-04-02,Filled
+R5044,Risk & Finance,Risk Management,Charlotte,L2,E113494,2026-10-24,,Open
+R5045,Wealth Management,Client Service,Jacksonville,L2,E111644,2026-02-13,2026-03-27,Filled
+R5046,Technology,Data & Analytics,Charlotte,L4,E107667,2026-07-16,2026-09-21,Filled
+R5047,Operations,Payment Operations,Jacksonville,L3,E101187,2026-04-10,2026-05-25,Filled
+R5048,Operations,Reconciliation,Jacksonville,L2,E114330,2026-03-09,,Open
+R5049,Retail Banking,Branch Banking,Phoenix,L3,E112093,2026-06-16,2026-08-15,Filled
+R5050,Technology,Data & Analytics,Charlotte,L3,E108875,2026-02-01,2026-03-02,Filled
+R5051,Risk & Finance,Finance & Accounting,Dallas,L4,E111736,2026-02-20,2026-04-16,Filled
+R5052,Retail Banking,Relationship Banking,Minneapolis,L3,E112107,2026-10-21,,Open
+R5053,Technology,Data & Analytics,Phoenix,L3,E105531,2026-09-20,,Open
+R5054,Commercial Banking,Commercial Lending,Charlotte,L1,E109670,2026-06-20,2026-08-10,Filled
+R5055,Commercial Banking,Treasury Services,Phoenix,L2,E108557,2026-06-14,2026-07-25,Filled
+R5056,Technology,Data & Analytics,New York,L3,E110024,2026-07-31,2026-09-13,Filled
+R5057,Risk & Finance,Risk Management,Denver,L1,E103490,2026-04-23,2026-06-17,Filled
+R5058,Wealth Management,Client Service,New York,L3,E102659,2026-05-18,2026-06-21,Filled
+R5059,Operations,Payment Operations,Denver,L3,E102873,2026-02-10,2026-03-16,Filled
+R5060,Operations,Loan Operations,Charlotte,L4,E111565,2026-09-26,,Open
+R5061,Wealth Management,Portfolio Management,Minneapolis,L1,E115022,2026-10-05,,Open
+R5062,Retail Banking,Contact Center,Minneapolis,L2,E108160,2026-03-20,2026-04-19,Filled
+R5063,Commercial Banking,Commercial Lending,Chicago,L3,E102104,2026-02-23,2026-04-20,Filled
+R5064,Retail Banking,Contact Center,New York,L3,E109139,2026-03-09,,Open
+R5065,Risk & Finance,Finance & Accounting,Chicago,L2,E106965,2026-01-31,2026-03-16,Filled
+R5066,Retail Banking,Branch Banking,Charlotte,L2,E105620,2026-04-07,,Open
+R5067,Operations,Loan Operations,Jacksonville,L3,E106031,2026-05-30,2026-07-08,Filled
+R5068,Commercial Banking,Treasury Services,Jacksonville,L3,E114460,2026-06-08,2026-07-20,Filled
+R5069,Operations,Payment Operations,New York,L3,E104130,2026-07-03,2026-08-06,Filled
+R5070,Operations,Loan Operations,Minneapolis,L2,E103925,2026-04-22,2026-06-03,Filled
+R5071,Risk & Finance,Compliance,Chicago,L3,E115324,2026-03-29,2026-05-30,Filled
+R5072,Retail Banking,Contact Center,Jacksonville,L1,E107051,2026-01-28,,Open
+R5073,Commercial Banking,Treasury Services,New York,L3,E113728,2026-02-11,2026-04-15,Filled
+R5074,Wealth Management,Financial Advisory,Denver,L3,E106596,2026-08-24,2026-10-04,Filled
+R5075,Commercial Banking,Treasury Services,Minneapolis,L4,E100326,2026-07-14,2026-09-05,Filled
+R5076,Wealth Management,Client Service,New York,L2,E107265,2026-09-02,,Open
+R5077,Wealth Management,Financial Advisory,Phoenix,L3,E105222,2026-09-14,2026-10-28,Filled
+R5078,Wealth Management,Financial Advisory,New York,L4,E114396,2026-02-01,2026-03-09,Filled
+R5079,Operations,Loan Operations,Charlotte,L3,E105320,2026-08-20,2026-10-04,Filled
+R5080,Operations,Payment Operations,Dallas,L1,E100774,2026-08-24,2026-10-04,Filled
+R5081,Retail Banking,Contact Center,New York,L3,E114726,2026-08-31,2026-09-30,Filled
+R5082,Technology,Software Engineering,Dallas,L3,E109767,2026-09-07,,Open
+R5083,Wealth Management,Client Service,Chicago,L4,E107794,2026-03-28,2026-05-11,Filled
+R5084,Retail Banking,Branch Banking,Denver,L2,E110107,2026-05-09,2026-06-11,Filled
+R5085,Wealth Management,Financial Advisory,Phoenix,L2,E114778,2026-05-03,2026-07-03,Filled
+R5086,Retail Banking,Contact Center,New York,L3,E107320,2026-01-13,2026-02-27,Filled
+R5087,Operations,Loan Operations,Denver,L2,E105158,2026-10-23,,Open
+R5088,Technology,Infrastructure,Jacksonville,L3,E111656,2026-07-06,,Open
+R5089,Operations,Payment Operations,Dallas,L3,E110262,2026-08-07,2026-09-15,Filled
+R5090,Wealth Management,Portfolio Management,Charlotte,L4,E110453,2026-08-01,2026-09-30,Filled
+R5091,Risk & Finance,Risk Management,Charlotte,L4,E107293,2026-09-20,2026-10-28,Filled
+R5092,Wealth Management,Client Service,Dallas,L1,E104788,2026-10-28,,Open
+R5093,Wealth Management,Portfolio Management,Charlotte,L3,E109836,2026-08-23,2026-10-05,Filled
+R5094,Wealth Management,Client Service,Charlotte,L3,E107210,2026-07-23,2026-09-28,Filled
+R5095,Risk & Finance,Risk Management,Minneapolis,L3,E113668,2026-02-06,2026-03-18,Filled
+R5096,Operations,Reconciliation,Chicago,L3,E106412,2026-06-28,2026-07-31,Filled
+R5097,Operations,Loan Operations,Chicago,L2,E114046,2026-03-04,2026-04-30,Filled
+R5098,Operations,Reconciliation,Minneapolis,L4,E109175,2026-09-16,2026-10-26,Filled
+R5099,Wealth Management,Financial Advisory,Minneapolis,L1,E108600,2026-01-14,2026-02-23,Filled
+R5100,Operations,Loan Operations,Chicago,L2,E113172,2026-10-24,,Open
+R5101,Technology,Data & Analytics,Dallas,L2,E114126,2026-05-13,2026-07-15,Filled
+R5102,Retail Banking,Branch Banking,New York,L4,E110721,2026-09-21,2026-10-27,Filled
+R5103,Commercial Banking,Treasury Services,New York,L1,E102100,2026-01-16,,Open
+R5104,Risk & Finance,Risk Management,Chicago,L1,E103351,2026-05-05,2026-06-03,Filled
+R5105,Retail Banking,Branch Banking,New York,L3,E110808,2026-07-08,2026-08-24,Filled
+R5106,Commercial Banking,Treasury Services,Charlotte,L2,E103756,2026-03-28,2026-04-26,Filled
+R5107,Operations,Payment Operations,Charlotte,L1,E112777,2026-08-01,,Open
+R5108,Retail Banking,Contact Center,Minneapolis,L3,E104736,2026-10-06,,Open
+R5109,Technology,Data & Analytics,New York,L3,E109635,2026-03-15,2026-04-23,Filled
+R5110,Technology,Software Engineering,New York,L4,E101204,2026-06-30,2026-08-24,Filled
+R5111,Technology,Software Engineering,Jacksonville,L2,E105116,2026-03-19,,Open
+R5112,Risk & Finance,Finance & Accounting,Dallas,L2,E104289,2026-02-08,2026-03-13,Filled
+R5113,Operations,Reconciliation,Minneapolis,L3,E109175,2026-08-11,2026-09-28,Filled
+R5114,Technology,Software Engineering,New York,L1,E103489,2026-07-21,2026-09-17,Filled
+R5115,Technology,Data & Analytics,Charlotte,L2,E104101,2026-09-13,2026-10-26,Filled
+R5116,Retail Banking,Relationship Banking,Charlotte,L1,E102234,2026-07-09,2026-08-09,Filled
+R5117,Technology,Data & Analytics,Charlotte,L2,E102129,2026-05-20,2026-06-19,Filled
+R5118,Retail Banking,Branch Banking,Charlotte,L2,E113332,2026-08-16,2026-10-05,Filled
+R5119,Technology,Data & Analytics,Minneapolis,L3,E115141,2026-07-31,2026-09-18,Filled
+R5120,Operations,Reconciliation,Minneapolis,L1,E108825,2026-04-23,2026-06-27,Filled
+R5121,Risk & Finance,Finance & Accounting,Minneapolis,L3,E101126,2026-04-09,2026-05-14,Filled
+R5122,Wealth Management,Portfolio Management,Phoenix,L4,E109812,2026-04-27,2026-06-02,Filled
+R5123,Wealth Management,Financial Advisory,Phoenix,L2,E114778,2026-07-26,2026-09-20,Filled
+R5124,Retail Banking,Branch Banking,Denver,L3,E105669,2026-03-12,2026-04-30,Filled
+R5125,Technology,Infrastructure,Chicago,L2,E106774,2026-04-23,2026-06-02,Filled
+R5126,Wealth Management,Portfolio Management,Charlotte,L2,E111343,2026-06-08,2026-07-09,Filled
+R5127,Technology,Software Engineering,Dallas,L1,E111161,2026-04-18,2026-06-19,Filled
+R5128,Commercial Banking,Commercial Lending,Charlotte,L4,E109868,2026-03-01,2026-03-29,Filled
+R5129,Operations,Loan Operations,Chicago,L3,E100365,2026-05-24,2026-07-09,Filled
+R5130,Retail Banking,Relationship Banking,New York,L3,E107654,2026-09-10,2026-10-22,Filled
+R5131,Risk & Finance,Finance & Accounting,Charlotte,L3,E107918,2026-08-03,2026-10-03,Filled
+R5132,Commercial Banking,Commercial Lending,Phoenix,L2,E111067,2026-03-14,2026-05-18,Filled
+R5133,Operations,Loan Operations,Minneapolis,L4,E112469,2026-04-13,2026-06-01,Filled
+R5134,Wealth Management,Client Service,Jacksonville,L4,E105489,2026-06-13,2026-07-15,Filled
+R5135,Commercial Banking,Credit Analysis,Denver,L2,E101896,2026-06-17,2026-07-29,Filled
+R5136,Commercial Banking,Treasury Services,Phoenix,L1,E105098,2026-01-12,2026-03-06,Filled
+R5137,Technology,Infrastructure,Jacksonville,L4,E111122,2026-07-31,2026-09-14,Filled
+R5138,Operations,Loan Operations,New York,L3,E101840,2026-03-31,,Open
+R5139,Risk & Finance,Compliance,Chicago,L3,E115324,2026-01-12,2026-02-21,Filled
+R5140,Technology,Infrastructure,Jacksonville,L2,E103820,2026-05-13,2026-06-21,Filled
+R5141,Retail Banking,Branch Banking,Phoenix,L3,E111680,2026-09-16,,Open
+R5142,Wealth Management,Client Service,Jacksonville,L3,E105489,2026-04-23,2026-05-28,Filled
+R5143,Wealth Management,Client Service,New York,L4,E113302,2026-03-06,2026-04-10,Filled
+R5144,Commercial Banking,Treasury Services,Dallas,L2,E114285,2026-10-30,,Open
+R5145,Operations,Loan Operations,Denver,L2,E105158,2026-08-25,2026-10-15,Filled
+R5146,Technology,Software Engineering,New York,L3,E105603,2026-02-12,2026-04-06,Filled
+R5147,Risk & Finance,Risk Management,Chicago,L4,E114473,2026-09-26,2026-10-25,Filled
+R5148,Technology,Software Engineering,Charlotte,L2,E110520,2026-08-08,,Open
+R5149,Operations,Payment Operations,New York,L4,E113926,2026-01-09,2026-03-12,Filled
+R5150,Wealth Management,Client Service,Phoenix,L3,E113966,2026-05-24,2026-07-22,Filled
+R5151,Operations,Reconciliation,New York,L1,E110651,2026-05-18,2026-07-23,Filled
+R5152,Operations,Reconciliation,Charlotte,L2,E102193,2026-02-23,2026-03-24,Filled
+R5153,Technology,Software Engineering,Jacksonville,L4,E114830,2026-02-21,2026-04-19,Filled
+R5154,Risk & Finance,Finance & Accounting,Minneapolis,L2,E110852,2026-08-12,2026-09-21,Filled
+R5155,Operations,Loan Operations,Minneapolis,L4,E112390,2026-05-01,2026-06-03,Filled
+R5156,Retail Banking,Relationship Banking,Jacksonville,L2,E104221,2026-09-30,,Open
+R5157,Retail Banking,Branch Banking,Phoenix,L3,E114899,2026-10-10,,Open
+R5158,Wealth Management,Financial Advisory,Charlotte,L2,E112869,2026-07-31,2026-09-19,Filled
+R5159,Operations,Loan Operations,Chicago,L2,E105748,2026-08-13,,Open
+R5160,Retail Banking,Branch Banking,Jacksonville,L3,E101347,2026-08-08,2026-09-15,Filled
+R5161,Retail Banking,Relationship Banking,Phoenix,L4,E114605,2026-05-11,2026-06-21,Filled
+R5162,Technology,Software Engineering,Minneapolis,L3,E114375,2026-07-15,2026-10-04,Filled
+R5163,Risk & Finance,Finance & Accounting,Charlotte,L4,E110899,2026-06-29,2026-07-31,Filled
+R5164,Retail Banking,Branch Banking,New York,L1,E110808,2026-08-14,2026-09-14,Filled
+R5165,Retail Banking,Relationship Banking,Dallas,L2,E110157,2026-10-19,,Open
+R5166,Wealth Management,Client Service,Jacksonville,L3,E105489,2026-07-05,2026-08-23,Filled
+R5167,Technology,Infrastructure,Dallas,L2,E104380,2026-10-06,,Open
+R5168,Wealth Management,Client Service,Phoenix,L2,E113966,2026-10-12,,Open
+R5169,Technology,Software Engineering,Charlotte,L2,E105789,2026-07-29,2026-10-14,Filled
+R5170,Commercial Banking,Commercial Lending,Charlotte,L2,E102107,2026-07-21,2026-08-27,Filled
+R5171,Operations,Payment Operations,Charlotte,L1,E114972,2026-05-07,2026-06-06,Filled
+R5172,Operations,Loan Operations,Dallas,L3,E105998,2026-08-02,2026-09-23,Filled
+R5173,Operations,Loan Operations,Dallas,L4,E112548,2026-09-09,,Open
+R5174,Retail Banking,Branch Banking,Jacksonville,L2,E114876,2026-01-15,,Open
+R5175,Operations,Loan Operations,Denver,L4,E105158,2026-10-27,,Open
+R5176,Operations,Loan Operations,Dallas,L4,E109583,2026-07-07,2026-08-17,Filled
+R5177,Wealth Management,Client Service,Minneapolis,L2,E102999,2026-07-30,2026-10-02,Filled
+R5178,Retail Banking,Branch Banking,Jacksonville,L2,E108931,2026-06-29,2026-08-28,Filled
+R5179,Retail Banking,Relationship Banking,New York,L2,E114671,2026-03-31,2026-05-18,Filled
+R5180,Risk & Finance,Risk Management,Charlotte,L4,E102899,2026-08-29,,Open
+R5181,Wealth Management,Client Service,Denver,L3,E108644,2026-02-22,2026-04-28,Filled
+R5182,Technology,Data & Analytics,Dallas,L1,E105289,2026-02-23,2026-04-05,Filled
+R5183,Wealth Management,Client Service,Dallas,L3,E112137,2026-05-04,2026-06-04,Filled
+R5184,Operations,Payment Operations,Charlotte,L2,E107815,2026-01-05,2026-02-14,Filled
+R5185,Risk & Finance,Compliance,Denver,L2,E103693,2026-05-11,2026-07-12,Filled
+R5186,Risk & Finance,Compliance,Charlotte,L3,E109060,2026-10-28,,Open
+R5187,Operations,Loan Operations,New York,L3,E105664,2026-10-10,,Open
+R5188,Technology,Software Engineering,Minneapolis,L2,E100517,2026-01-29,2026-04-08,Filled
+R5189,Risk & Finance,Risk Management,Minneapolis,L1,E113668,2026-05-07,2026-07-04,Filled
+R5190,Operations,Loan Operations,Jacksonville,L2,E106669,2026-05-03,2026-07-09,Filled
+R5191,Operations,Reconciliation,Chicago,L3,E114641,2026-07-23,2026-08-20,Filled
+R5192,Retail Banking,Branch Banking,Charlotte,L3,E110294,2026-02-27,2026-05-02,Filled
+R5193,Commercial Banking,Treasury Services,New York,L1,E114474,2026-09-27,2026-10-31,Filled
+R5194,Technology,Software Engineering,Chicago,L1,E114958,2026-06-11,2026-08-14,Filled
+R5195,Wealth Management,Portfolio Management,Chicago,L1,E107954,2026-08-12,2026-10-17,Filled
+R5196,Technology,Data & Analytics,Dallas,L2,E111379,2026-09-13,,Open
+R5197,Operations,Payment Operations,Charlotte,L2,E101294,2026-09-12,2026-10-11,Filled
+R5198,Retail Banking,Branch Banking,Jacksonville,L2,E114876,2026-08-10,2026-10-16,Filled
+R5199,Operations,Loan Operations,Chicago,L4,E105748,2026-06-27,2026-08-13,Filled
+R5200,Technology,Data & Analytics,Chicago,L3,E106540,2026-03-18,2026-05-21,Filled
+R5201,Wealth Management,Client Service,New York,L3,E113302,2026-06-03,2026-07-13,Filled
+R5202,Risk & Finance,Risk Management,New York,L2,E103515,2026-01-28,2026-03-01,Filled
+R5203,Technology,Software Engineering,Phoenix,L4,E110020,2026-07-16,2026-09-04,Filled
+R5204,Retail Banking,Branch Banking,Phoenix,L1,E105405,2026-10-12,,Open
+R5205,Technology,Infrastructure,Charlotte,L3,E113278,2026-08-15,2026-09-30,Filled
+R5206,Wealth Management,Client Service,New York,L3,E102659,2026-07-31,2026-09-27,Filled
+R5207,Retail Banking,Branch Banking,Phoenix,L2,E111539,2026-03-08,2026-04-20,Filled
+R5208,Risk & Finance,Risk Management,Chicago,L2,E101322,2026-03-30,2026-04-30,Filled
+R5209,Commercial Banking,Commercial Lending,New York,L1,E108757,2026-08-13,2026-09-18,Filled
+R5210,Commercial Banking,Commercial Lending,Jacksonville,L3,E108038,2026-06-28,2026-07-28,Filled
+R5211,Operations,Reconciliation,Chicago,L2,E106412,2026-09-25,2026-10-27,Filled
+R5212,Risk & Finance,Risk Management,Charlotte,L3,E111604,2026-02-13,2026-04-02,Filled
+R5213,Retail Banking,Branch Banking,Minneapolis,L2,E102163,2026-06-19,2026-07-28,Filled
+R5214,Technology,Infrastructure,Minneapolis,L3,E113056,2026-08-29,2026-10-23,Filled
+R5215,Retail Banking,Branch Banking,Charlotte,L2,E112034,2026-01-31,,Open
+R5216,Operations,Reconciliation,Phoenix,L3,E109114,2026-07-29,2026-09-26,Filled
+R5217,Wealth Management,Financial Advisory,Chicago,L4,E101272,2026-07-02,2026-08-08,Filled
+R5218,Wealth Management,Portfolio Management,Jacksonville,L3,E101211,2026-01-29,2026-03-02,Filled
+R5219,Risk & Finance,Risk Management,Chicago,L1,E100807,2026-09-16,2026-10-23,Filled
+R5220,Technology,Data & Analytics,Charlotte,L3,E104691,2026-02-04,2026-04-07,Filled
+R5221,Retail Banking,Relationship Banking,Dallas,L3,E115084,2026-07-17,2026-08-22,Filled
+R5222,Operations,Loan Operations,Charlotte,L4,E110151,2026-05-17,2026-06-30,Filled
+R5223,Technology,Software Engineering,Dallas,L2,E112438,2026-05-30,2026-08-04,Filled
+R5224,Technology,Software Engineering,Charlotte,L3,E102553,2026-03-06,2026-04-28,Filled
+R5225,Retail Banking,Contact Center,New York,L2,E105308,2026-07-22,2026-09-24,Filled
+R5226,Commercial Banking,Credit Analysis,Chicago,L1,E106407,2026-07-09,2026-08-31,Filled
+R5227,Retail Banking,Relationship Banking,Chicago,L4,E113053,2026-07-14,2026-09-10,Filled
+R5228,Operations,Loan Operations,Phoenix,L2,E114503,2026-04-04,2026-06-11,Filled
+R5229,Technology,Software Engineering,Charlotte,L3,E108658,2026-06-11,2026-08-29,Filled
+R5230,Commercial Banking,Commercial Lending,Chicago,L1,E106200,2026-10-27,,Open
+R5231,Commercial Banking,Credit Analysis,Chicago,L1,E112490,2026-03-09,2026-04-26,Filled
+R5232,Retail Banking,Branch Banking,New York,L1,E103052,2026-02-04,,Open
+R5233,Operations,Loan Operations,Dallas,L2,E106017,2026-02-27,2026-04-14,Filled
+R5234,Operations,Payment Operations,Denver,L3,E104984,2026-08-10,2026-09-23,Filled
+R5235,Commercial Banking,Commercial Lending,Phoenix,L1,E113272,2026-03-06,2026-04-20,Filled
+R5236,Operations,Reconciliation,Chicago,L4,E110161,2026-03-24,2026-05-11,Filled
+R5237,Retail Banking,Branch Banking,Chicago,L2,E102677,2026-05-21,2026-06-27,Filled
+R5238,Operations,Payment Operations,Minneapolis,L3,E114727,2026-02-18,2026-04-08,Filled
+R5239,Retail Banking,Branch Banking,Chicago,L2,E102677,2026-01-05,2026-02-15,Filled
+R5240,Technology,Software Engineering,Chicago,L2,E100904,2026-01-11,2026-03-31,Filled
+R5241,Risk & Finance,Risk Management,Dallas,L2,E106473,2026-08-17,,Open
+R5242,Wealth Management,Client Service,Charlotte,L3,E107210,2026-01-10,2026-02-09,Filled
+R5243,Technology,Data & Analytics,Jacksonville,L3,E108228,2026-10-21,,Open
+R5244,Risk & Finance,Risk Management,Charlotte,L2,E110508,2026-02-12,2026-03-27,Filled
+R5245,Risk & Finance,Risk Management,Chicago,L1,E103346,2026-03-21,2026-04-23,Filled
+R5246,Operations,Reconciliation,Jacksonville,L3,E115031,2026-02-25,2026-04-16,Filled
+R5247,Wealth Management,Client Service,Phoenix,L3,E105022,2026-01-15,2026-03-04,Filled
+R5248,Technology,Infrastructure,Charlotte,L2,E108343,2026-09-07,2026-10-22,Filled
+R5249,Retail Banking,Branch Banking,Minneapolis,L4,E104364,2026-09-26,,Open
+R5250,Risk & Finance,Finance & Accounting,Charlotte,L3,E114315,2026-02-04,2026-03-06,Filled
+R5251,Operations,Loan Operations,Minneapolis,L1,E104343,2026-07-11,2026-08-12,Filled
+R5252,Technology,Data & Analytics,Charlotte,L3,E104526,2026-08-05,2026-09-12,Filled
+R5253,Technology,Data & Analytics,Chicago,L3,E107386,2026-08-28,2026-10-13,Filled
+R5254,Retail Banking,Contact Center,Denver,L3,E108709,2026-07-01,2026-09-02,Filled
+R5255,Commercial Banking,Commercial Lending,Phoenix,L3,E107252,2026-05-04,2026-06-15,Filled
+R5256,Operations,Loan Operations,Minneapolis,L2,E109258,2026-04-11,2026-06-05,Filled
+R5257,Retail Banking,Branch Banking,New York,L3,E108633,2026-05-13,2026-07-12,Filled
+R5258,Retail Banking,Contact Center,Charlotte,L2,E110396,2026-02-08,2026-03-27,Filled
+R5259,Commercial Banking,Commercial Lending,Charlotte,L2,E102157,2026-02-13,2026-04-10,Filled
+R5260,Retail Banking,Relationship Banking,New York,L3,E115234,2026-07-11,2026-08-15,Filled
+R5261,Technology,Software Engineering,Charlotte,L1,E107912,2026-07-15,2026-09-11,Filled
+R5262,Risk & Finance,Compliance,Charlotte,L3,E100230,2026-06-18,2026-08-03,Filled
+R5263,Retail Banking,Relationship Banking,Minneapolis,L2,E104598,2026-06-29,2026-08-18,Filled
+R5264,Risk & Finance,Risk Management,Charlotte,L4,E111604,2026-06-10,2026-07-10,Filled
+R5265,Wealth Management,Client Service,Charlotte,L3,E105062,2026-07-13,2026-08-25,Filled
+R5266,Wealth Management,Client Service,Dallas,L2,E105757,2026-09-15,,Open
+R5267,Operations,Loan Operations,Charlotte,L1,E106958,2026-05-11,2026-06-18,Filled
+R5268,Wealth Management,Portfolio Management,Chicago,L3,E107954,2026-05-15,2026-06-29,Filled
+R5269,Retail Banking,Relationship Banking,Dallas,L3,E103998,2026-10-08,,Open
+R5270,Retail Banking,Contact Center,Dallas,L3,E107924,2026-01-24,2026-03-23,Filled
+R5271,Operations,Reconciliation,New York,L1,E104013,2026-05-09,2026-07-03,Filled
+R5272,Operations,Loan Operations,Denver,L3,E115480,2026-02-08,2026-04-09,Filled
+R5273,Wealth Management,Financial Advisory,Minneapolis,L2,E110507,2026-09-30,,Open
+R5274,Commercial Banking,Commercial Lending,Chicago,L3,E102104,2026-06-27,2026-08-13,Filled
+R5275,Risk & Finance,Risk Management,Phoenix,L3,E113987,2026-07-29,2026-09-23,Filled
+R5276,Retail Banking,Contact Center,New York,L3,E107118,2026-10-24,,Open
+R5277,Operations,Reconciliation,Phoenix,L2,E109114,2026-05-01,2026-06-24,Filled
+R5278,Risk & Finance,Risk Management,New York,L1,E107950,2026-07-17,2026-09-08,Filled
+R5279,Technology,Infrastructure,New York,L2,E108204,2026-04-27,2026-06-13,Filled
+R5280,Retail Banking,Branch Banking,Phoenix,L3,E114899,2026-05-03,2026-06-06,Filled
+R5281,Wealth Management,Portfolio Management,Minneapolis,L3,E109446,2026-06-14,2026-08-04,Filled
+R5282,Retail Banking,Contact Center,Charlotte,L2,E100383,2026-07-13,2026-08-19,Filled
+R5283,Technology,Software Engineering,Chicago,L3,E110397,2026-01-26,2026-04-09,Filled
+R5284,Wealth Management,Client Service,Minneapolis,L1,E106849,2026-10-30,,Open
+R5285,Retail Banking,Relationship Banking,Denver,L2,E112952,2026-03-22,2026-05-27,Filled
+R5286,Risk & Finance,Risk Management,Chicago,L3,E113956,2026-04-02,2026-06-04,Filled
+R5287,Technology,Data & Analytics,Chicago,L4,E112139,2026-09-21,2026-10-20,Filled
+R5288,Retail Banking,Branch Banking,Chicago,L2,E114143,2026-07-24,2026-09-29,Filled
+R5289,Retail Banking,Branch Banking,New York,L4,E110808,2026-05-07,2026-07-01,Filled
+R5290,Technology,Software Engineering,New York,L1,E102256,2026-04-07,2026-06-10,Filled
+R5291,Risk & Finance,Risk Management,Chicago,L1,E100807,2026-07-22,2026-08-29,Filled
+R5292,Retail Banking,Contact Center,New York,L4,E109139,2026-07-16,2026-08-27,Filled
+R5293,Retail Banking,Contact Center,Charlotte,L2,E105914,2026-09-25,,Open
+R5294,Retail Banking,Branch Banking,Dallas,L2,E112805,2026-04-01,2026-05-26,Filled
+R5295,Technology,Data & Analytics,Charlotte,L1,E111440,2026-10-25,,Open
+R5296,Operations,Payment Operations,Minneapolis,L3,E108220,2026-06-17,2026-08-22,Filled
+R5297,Risk & Finance,Risk Management,Phoenix,L2,E105761,2026-08-27,2026-10-30,Filled
+R5298,Retail Banking,Branch Banking,New York,L3,E101232,2026-06-01,2026-08-02,Filled
+R5299,Wealth Management,Portfolio Management,Denver,L3,E113407,2026-10-31,,Open
+R5300,Technology,Data & Analytics,New York,L4,E113852,2026-03-09,2026-04-25,Filled
+R5301,Retail Banking,Relationship Banking,Chicago,L4,E104825,2026-05-15,2026-07-10,Filled
+R5302,Commercial Banking,Commercial Lending,Chicago,L3,E106200,2026-08-22,2026-10-08,Filled
+R5303,Commercial Banking,Commercial Lending,Denver,L4,E101541,2026-07-31,2026-09-03,Filled
+R5304,Retail Banking,Branch Banking,Denver,L2,E106125,2026-05-17,2026-07-12,Filled
+R5305,Technology,Software Engineering,Charlotte,L4,E107398,2026-06-02,2026-07-22,Filled
+R5306,Technology,Software Engineering,Charlotte,L2,E115068,2026-09-23,,Open
+R5307,Technology,Software Engineering,Jacksonville,L3,E113299,2026-08-06,2026-10-26,Filled
+R5308,Operations,Loan Operations,Dallas,L4,E108511,2026-02-01,2026-03-28,Filled
+R5309,Wealth Management,Client Service,Chicago,L2,E110145,2026-02-08,2026-03-13,Filled
+R5310,Commercial Banking,Credit Analysis,New York,L2,E114708,2026-03-18,2026-05-08,Filled
+R5311,Commercial Banking,Commercial Lending,Charlotte,L1,E102963,2026-03-25,2026-05-10,Filled
+R5312,Operations,Payment Operations,New York,L2,E113926,2026-02-21,2026-03-31,Filled
+R5313,Retail Banking,Branch Banking,Dallas,L1,E107113,2026-03-28,2026-04-28,Filled
+R5314,Operations,Loan Operations,Phoenix,L2,E113127,2026-05-20,2026-06-20,Filled
+R5315,Technology,Infrastructure,Charlotte,L3,E100047,2026-01-10,2026-02-26,Filled
+R5316,Retail Banking,Branch Banking,Jacksonville,L2,E102067,2026-02-26,2026-04-03,Filled
+R5317,Operations,Reconciliation,Charlotte,L3,E100041,2026-02-06,2026-04-10,Filled
+R5318,Wealth Management,Portfolio Management,Denver,L1,E113407,2026-05-04,2026-06-23,Filled
+R5319,Risk & Finance,Compliance,Chicago,L1,E111087,2026-02-04,2026-03-15,Filled
+R5320,Retail Banking,Branch Banking,Dallas,L1,E111905,2026-05-26,2026-07-09,Filled
+R5321,Wealth Management,Financial Advisory,Dallas,L2,E103802,2026-10-25,,Open
+R5322,Operations,Reconciliation,New York,L3,E109961,2026-09-21,2026-10-23,Filled
+R5323,Retail Banking,Branch Banking,Dallas,L1,E114711,2026-06-15,2026-07-29,Filled
+R5324,Retail Banking,Relationship Banking,Chicago,L2,E115105,2026-04-12,2026-06-03,Filled
+R5325,Wealth Management,Financial Advisory,Charlotte,L4,E115049,2026-01-30,2026-03-04,Filled
+R5326,Wealth Management,Portfolio Management,Charlotte,L2,E107574,2026-09-10,,Open
+R5327,Commercial Banking,Treasury Services,Charlotte,L4,E101683,2026-02-28,2026-04-20,Filled
+R5328,Technology,Software Engineering,Charlotte,L2,E101485,2026-05-26,2026-07-14,Filled
+R5329,Retail Banking,Branch Banking,Charlotte,L3,E108678,2026-04-07,,Open
+R5330,Wealth Management,Financial Advisory,Minneapolis,L3,E104607,2026-03-14,2026-05-01,Filled
+R5331,Commercial Banking,Treasury Services,Phoenix,L1,E101100,2026-07-26,2026-09-15,Filled
+R5332,Operations,Loan Operations,Chicago,L1,E101581,2026-08-31,,Open
+R5333,Retail Banking,Contact Center,Jacksonville,L4,E103070,2026-07-17,2026-08-20,Filled
+R5334,Wealth Management,Client Service,Charlotte,L4,E107210,2026-06-18,2026-08-21,Filled
+R5335,Risk & Finance,Finance & Accounting,Dallas,L1,E104491,2026-01-22,2026-02-25,Filled
+R5336,Risk & Finance,Risk Management,Minneapolis,L1,E106376,2026-04-15,2026-06-18,Filled
+R5337,Operations,Payment Operations,New York,L3,E107173,2026-08-06,2026-10-12,Filled
+R5338,Retail Banking,Branch Banking,Dallas,L2,E112805,2026-10-14,,Open
+R5339,Commercial Banking,Credit Analysis,Dallas,L2,E111631,2026-05-31,,Open
+R5340,Retail Banking,Branch Banking,Dallas,L3,E107113,2026-06-02,2026-07-29,Filled
+R5341,Retail Banking,Branch Banking,New York,L3,E111970,2026-07-11,2026-08-11,Filled
+R5342,Risk & Finance,Finance & Accounting,New York,L2,E113652,2026-10-25,,Open
+R5343,Retail Banking,Contact Center,Dallas,L1,E104182,2026-04-30,2026-06-08,Filled
+R5344,Operations,Reconciliation,Chicago,L2,E105630,2026-03-30,2026-05-10,Filled
+R5345,Technology,Data & Analytics,Jacksonville,L2,E104981,2026-05-21,2026-07-16,Filled
+R5346,Operations,Reconciliation,Minneapolis,L4,E105394,2026-08-17,2026-09-22,Filled
+R5347,Commercial Banking,Credit Analysis,Jacksonville,L4,E113927,2026-05-08,2026-06-19,Filled
+R5348,Retail Banking,Branch Banking,Denver,L1,E111288,2026-07-20,,Open
+R5349,Operations,Payment Operations,Chicago,L3,E103521,2026-02-06,2026-03-26,Filled
+R5350,Technology,Software Engineering,Charlotte,L3,E115469,2026-10-25,,Open
+R5351,Risk & Finance,Risk Management,Chicago,L2,E108596,2026-02-06,2026-04-02,Filled
+R5352,Commercial Banking,Commercial Lending,Phoenix,L1,E114254,2026-07-02,2026-09-02,Filled
+R5353,Risk & Finance,Risk Management,Charlotte,L2,E113944,2026-02-02,2026-03-15,Filled
+R5354,Operations,Payment Operations,New York,L2,E110027,2026-08-11,2026-09-17,Filled
+R5355,Retail Banking,Contact Center,Charlotte,L4,E110396,2026-04-08,2026-06-04,Filled
+R5356,Operations,Reconciliation,Phoenix,L1,E112810,2026-04-13,2026-05-23,Filled
+R5357,Retail Banking,Branch Banking,Jacksonville,L3,E115086,2026-01-24,2026-03-31,Filled
+R5358,Operations,Reconciliation,Minneapolis,L3,E109175,2026-09-29,,Open
+R5359,Wealth Management,Portfolio Management,New York,L3,E106480,2026-08-14,2026-10-08,Filled
+R5360,Operations,Loan Operations,Dallas,L1,E110066,2026-02-01,2026-03-18,Filled
+R5361,Risk & Finance,Risk Management,Phoenix,L3,E107990,2026-09-25,,Open
+R5362,Retail Banking,Branch Banking,Minneapolis,L3,E114535,2026-01-21,,Open
+R5363,Retail Banking,Branch Banking,Chicago,L3,E104738,2026-03-03,2026-04-02,Filled
+R5364,Operations,Loan Operations,Dallas,L2,E106017,2026-05-25,2026-07-24,Filled
+R5365,Wealth Management,Financial Advisory,New York,L4,E104806,2026-10-30,,Open
+R5366,Risk & Finance,Finance & Accounting,Dallas,L3,E104289,2026-04-05,2026-05-26,Filled
+R5367,Operations,Payment Operations,Charlotte,L2,E100335,2026-03-24,2026-05-04,Filled
+R5368,Retail Banking,Branch Banking,Charlotte,L2,E109589,2026-03-20,2026-05-19,Filled
+R5369,Commercial Banking,Commercial Lending,Phoenix,L3,E113272,2026-06-15,2026-08-17,Filled
+R5370,Technology,Data & Analytics,New York,L4,E102754,2026-04-20,2026-06-15,Filled
+R5371,Commercial Banking,Credit Analysis,Charlotte,L2,E103465,2026-07-19,,Open
+R5372,Operations,Loan Operations,Charlotte,L2,E103397,2026-05-09,2026-07-06,Filled
+R5373,Retail Banking,Relationship Banking,Phoenix,L2,E115062,2026-02-25,2026-04-11,Filled
+R5374,Retail Banking,Branch Banking,Denver,L3,E111288,2026-07-09,2026-08-17,Filled
+R5375,Wealth Management,Client Service,Denver,L1,E104584,2026-04-04,2026-05-16,Filled
+R5376,Wealth Management,Financial Advisory,New York,L1,E105743,2026-08-01,2026-09-15,Filled
+R5377,Wealth Management,Portfolio Management,New York,L3,E110454,2026-05-28,,Open
+R5378,Risk & Finance,Risk Management,Charlotte,L2,E103263,2026-04-02,2026-06-02,Filled
+R5379,Technology,Data & Analytics,Dallas,L2,E114481,2026-10-15,,Open
+R5380,Technology,Software Engineering,Charlotte,L3,E115469,2026-08-14,2026-10-17,Filled
+R5381,Risk & Finance,Compliance,Dallas,L3,E103612,2026-01-16,2026-03-10,Filled
+R5382,Technology,Data & Analytics,Dallas,L1,E114481,2026-02-24,,Open
+R5383,Wealth Management,Client Service,Phoenix,L3,E111871,2026-05-15,2026-06-30,Filled
+R5384,Technology,Software Engineering,Charlotte,L3,E102553,2026-01-08,2026-02-25,Filled
+R5385,Commercial Banking,Credit Analysis,Charlotte,L3,E106524,2026-02-28,2026-04-29,Filled
+R5386,Operations,Reconciliation,Charlotte,L2,E109076,2026-08-29,2026-10-28,Filled
+R5387,Retail Banking,Contact Center,New York,L2,E103081,2026-05-26,2026-07-17,Filled
+R5388,Operations,Loan Operations,New York,L3,E110694,2026-06-04,2026-07-31,Filled
+R5389,Operations,Reconciliation,Dallas,L1,E110009,2026-07-28,2026-08-27,Filled
+R5390,Commercial Banking,Credit Analysis,Dallas,L1,E111101,2026-04-21,2026-06-03,Filled
+R5391,Wealth Management,Client Service,Chicago,L3,E107794,2026-06-04,2026-08-02,Filled
+R5392,Risk & Finance,Compliance,Charlotte,L4,E105027,2026-04-26,2026-06-18,Filled
+R5393,Commercial Banking,Treasury Services,Jacksonville,L3,E107776,2026-04-01,2026-05-11,Filled
+R5394,Wealth Management,Client Service,Phoenix,L2,E105022,2026-07-24,2026-09-17,Filled
+R5395,Retail Banking,Contact Center,Minneapolis,L2,E104547,2026-06-06,2026-07-15,Filled
+R5396,Operations,Loan Operations,Phoenix,L2,E113127,2026-06-12,2026-07-20,Filled
+R5397,Risk & Finance,Finance & Accounting,Charlotte,L3,E109617,2026-01-18,2026-02-28,Filled
+R5398,Technology,Software Engineering,Charlotte,L1,E110520,2026-03-30,,Open
+R5399,Technology,Infrastructure,Denver,L1,E103498,2026-09-24,,Open
+R5400,Retail Banking,Branch Banking,Dallas,L4,E110002,2026-01-05,2026-03-13,Filled
+R5401,Commercial Banking,Treasury Services,Charlotte,L4,E106896,2026-04-16,2026-06-18,Filled
+R5402,Operations,Loan Operations,Jacksonville,L3,E104185,2026-07-19,2026-09-15,Filled
+R5403,Retail Banking,Branch Banking,New York,L3,E103052,2026-09-19,2026-10-24,Filled
+R5404,Risk & Finance,Risk Management,New York,L2,E106614,2026-08-28,2026-10-11,Filled
+R5405,Retail Banking,Relationship Banking,Chicago,L2,E107532,2026-07-27,2026-09-20,Filled
+R5406,Technology,Data & Analytics,Denver,L3,E109860,2026-04-20,2026-06-25,Filled
+R5407,Operations,Loan Operations,Minneapolis,L2,E114308,2026-01-25,2026-03-19,Filled
+R5408,Technology,Data & Analytics,Chicago,L4,E112139,2026-09-21,,Open
+R5409,Retail Banking,Relationship Banking,Minneapolis,L2,E102249,2026-04-08,,Open
+R5410,Retail Banking,Branch Banking,Phoenix,L1,E105856,2026-01-18,2026-03-12,Filled
+R5411,Technology,Software Engineering,Dallas,L4,E112904,2026-08-11,2026-10-02,Filled
+R5412,Retail Banking,Relationship Banking,Jacksonville,L3,E105515,2026-06-15,2026-08-11,Filled
+R5413,Commercial Banking,Commercial Lending,Jacksonville,L2,E110203,2026-08-25,2026-10-15,Filled
+R5414,Technology,Data & Analytics,Dallas,L2,E105289,2026-02-19,2026-03-28,Filled
+R5415,Operations,Payment Operations,Charlotte,L3,E112777,2026-06-12,2026-07-15,Filled
+R5416,Risk & Finance,Risk Management,Denver,L2,E101120,2026-04-04,2026-05-27,Filled
+R5417,Wealth Management,Client Service,Phoenix,L2,E105022,2026-06-20,,Open
+R5418,Retail Banking,Branch Banking,Minneapolis,L4,E104773,2026-04-20,2026-06-13,Filled
+R5419,Retail Banking,Branch Banking,Dallas,L2,E112805,2026-03-13,2026-04-12,Filled
+R5420,Technology,Software Engineering,Denver,L3,E110144,2026-09-19,,Open
+R5421,Retail Banking,Relationship Banking,Dallas,L2,E112454,2026-03-29,2026-05-09,Filled
+R5422,Retail Banking,Contact Center,Jacksonville,L3,E109066,2026-04-05,2026-05-13,Filled
+R5423,Wealth Management,Portfolio Management,Minneapolis,L2,E115022,2026-02-05,,Open
+R5424,Retail Banking,Relationship Banking,Phoenix,L2,E107351,2026-06-18,2026-08-11,Filled
+R5425,Technology,Infrastructure,Charlotte,L2,E111966,2026-03-15,2026-05-16,Filled
+R5426,Wealth Management,Client Service,Jacksonville,L1,E111644,2026-09-30,,Open
+R5427,Technology,Software Engineering,New York,L2,E109416,2026-04-06,,Open
+R5428,Operations,Payment Operations,Dallas,L1,E100774,2026-09-12,,Open
+R5429,Technology,Software Engineering,Charlotte,L4,E115003,2026-05-02,2026-07-03,Filled
+R5430,Technology,Data & Analytics,Phoenix,L1,E104098,2026-03-03,2026-04-15,Filled
+R5431,Retail Banking,Relationship Banking,Charlotte,L2,E113220,2026-01-12,2026-02-26,Filled
+R5432,Technology,Software Engineering,Chicago,L2,E114524,2026-03-04,2026-05-17,Filled
+R5433,Technology,Software Engineering,Charlotte,L1,E100584,2026-01-10,2026-03-31,Filled
+R5434,Operations,Payment Operations,Chicago,L1,E101754,2026-03-02,2026-04-16,Filled
+R5435,Wealth Management,Client Service,Phoenix,L2,E105022,2026-06-25,2026-08-08,Filled
+R5436,Technology,Data & Analytics,Jacksonville,L3,E109614,2026-01-19,2026-03-25,Filled
+R5437,Retail Banking,Relationship Banking,Minneapolis,L4,E104598,2026-04-11,2026-06-12,Filled
+R5438,Wealth Management,Client Service,Minneapolis,L2,E115446,2026-04-03,2026-05-05,Filled
+R5439,Operations,Reconciliation,Chicago,L3,E105630,2026-03-07,2026-04-07,Filled
+R5440,Operations,Reconciliation,Dallas,L4,E104179,2026-04-19,2026-05-23,Filled
+R5441,Commercial Banking,Commercial Lending,Jacksonville,L2,E103198,2026-03-05,2026-05-01,Filled
+R5442,Risk & Finance,Compliance,Phoenix,L2,E108306,2026-05-27,2026-07-26,Filled
+R5443,Wealth Management,Financial Advisory,Chicago,L3,E113442,2026-05-27,2026-08-03,Filled
+R5444,Technology,Data & Analytics,Minneapolis,L2,E112563,2026-05-13,2026-06-25,Filled
+R5445,Retail Banking,Branch Banking,Minneapolis,L2,E114535,2026-04-17,2026-05-21,Filled
+R5446,Operations,Loan Operations,New York,L2,E108829,2026-07-06,2026-08-24,Filled
+R5447,Operations,Payment Operations,Charlotte,L1,E105476,2026-05-11,,Open
+R5448,Wealth Management,Client Service,Dallas,L3,E105757,2026-10-24,,Open
+R5449,Commercial Banking,Treasury Services,Minneapolis,L3,E114088,2026-06-19,2026-07-20,Filled
+R5450,Operations,Loan Operations,Charlotte,L2,E103437,2026-02-26,2026-03-31,Filled
+R5451,Risk & Finance,Risk Management,Dallas,L4,E109578,2026-10-09,,Open
+R5452,Retail Banking,Branch Banking,Chicago,L3,E102768,2026-10-16,,Open
+R5453,Commercial Banking,Commercial Lending,Charlotte,L2,E102963,2026-03-13,2026-04-11,Filled
+R5454,Risk & Finance,Finance & Accounting,New York,L1,E101797,2026-04-23,,Open
+R5455,Wealth Management,Portfolio Management,New York,L3,E106480,2026-04-17,2026-06-20,Filled
+R5456,Retail Banking,Branch Banking,Minneapolis,L3,E104364,2026-02-15,2026-03-31,Filled
+R5457,Operations,Loan Operations,Charlotte,L4,E103437,2026-08-09,2026-09-26,Filled
+R5458,Risk & Finance,Finance & Accounting,New York,L3,E104735,2026-02-23,2026-04-03,Filled
+R5459,Technology,Software Engineering,Jacksonville,L1,E113299,2026-05-24,2026-07-10,Filled
+R5460,Retail Banking,Contact Center,Phoenix,L2,E107332,2026-01-29,2026-03-14,Filled
+R5461,Retail Banking,Branch Banking,New York,L2,E103456,2026-08-20,2026-10-18,Filled
+R5462,Operations,Reconciliation,Charlotte,L3,E114231,2026-09-05,,Open
+R5463,Retail Banking,Branch Banking,Phoenix,L1,E106929,2026-04-06,2026-05-10,Filled
+R5464,Technology,Data & Analytics,Minneapolis,L2,E109254,2026-08-16,2026-10-22,Filled
+R5465,Technology,Software Engineering,Chicago,L2,E114082,2026-01-17,2026-03-09,Filled
+R5466,Retail Banking,Relationship Banking,Chicago,L4,E100235,2026-08-01,2026-09-11,Filled
+R5467,Technology,Software Engineering,New York,L1,E112452,2026-04-25,,Open
+R5468,Retail Banking,Relationship Banking,Denver,L4,E111380,2026-04-03,2026-05-08,Filled
+R5469,Risk & Finance,Risk Management,Denver,L2,E101120,2026-08-20,2026-09-28,Filled
+R5470,Commercial Banking,Commercial Lending,New York,L3,E107640,2026-07-28,2026-09-09,Filled
+R5471,Commercial Banking,Treasury Services,Jacksonville,L2,E112030,2026-05-20,2026-07-09,Filled
+R5472,Operations,Reconciliation,Chicago,L3,E109420,2026-07-06,2026-08-19,Filled
+R5473,Technology,Data & Analytics,Phoenix,L3,E111246,2026-02-04,2026-04-06,Filled
+R5474,Retail Banking,Contact Center,Denver,L3,E105512,2026-10-12,,Open
+R5475,Retail Banking,Branch Banking,New York,L4,E109565,2026-08-27,2026-10-08,Filled
+R5476,Operations,Payment Operations,Charlotte,L1,E114972,2026-05-19,2026-07-13,Filled
+R5477,Commercial Banking,Commercial Lending,New York,L2,E108168,2026-04-14,2026-06-01,Filled
+R5478,Risk & Finance,Risk Management,Denver,L3,E101120,2026-07-31,2026-09-14,Filled
+R5479,Retail Banking,Contact Center,Dallas,L2,E109568,2026-08-19,2026-10-10,Filled
+R5480,Commercial Banking,Treasury Services,Jacksonville,L2,E113018,2026-01-25,2026-02-23,Filled
+R5481,Technology,Infrastructure,Dallas,L2,E111139,2026-03-22,2026-04-27,Filled
+R5482,Commercial Banking,Commercial Lending,New York,L4,E112866,2026-03-28,2026-05-20,Filled
+R5483,Risk & Finance,Risk Management,Jacksonville,L3,E111076,2026-06-30,2026-08-12,Filled
+R5484,Technology,Infrastructure,Jacksonville,L2,E104468,2026-08-30,2026-10-18,Filled
+R5485,Operations,Loan Operations,Phoenix,L4,E112488,2026-05-19,2026-07-13,Filled
+R5486,Commercial Banking,Treasury Services,Jacksonville,L1,E112030,2026-02-04,2026-03-25,Filled
+R5487,Retail Banking,Contact Center,Jacksonville,L3,E115298,2026-03-18,2026-05-08,Filled
+R5488,Retail Banking,Branch Banking,Minneapolis,L3,E104364,2026-02-21,,Open
+R5489,Wealth Management,Client Service,Minneapolis,L2,E102238,2026-03-27,2026-05-19,Filled
+R5490,Operations,Payment Operations,Denver,L1,E113198,2026-02-17,2026-04-05,Filled
+R5491,Operations,Payment Operations,Denver,L1,E102873,2026-09-22,,Open
+R5492,Retail Banking,Relationship Banking,Charlotte,L3,E111387,2026-09-08,2026-10-24,Filled
+R5493,Operations,Payment Operations,Charlotte,L1,E111837,2026-07-05,2026-08-13,Filled
+R5494,Technology,Software Engineering,Charlotte,L1,E106345,2026-03-07,2026-05-04,Filled
+R5495,Technology,Data & Analytics,Charlotte,L2,E102870,2026-03-20,2026-05-23,Filled
+R5496,Wealth Management,Client Service,Jacksonville,L3,E111644,2026-03-10,2026-05-08,Filled
+R5497,Retail Banking,Branch Banking,Dallas,L3,E106223,2026-04-04,2026-05-26,Filled
+R5498,Wealth Management,Financial Advisory,Phoenix,L2,E115181,2026-09-23,,Open
+R5499,Operations,Payment Operations,Dallas,L2,E111316,2026-07-28,2026-09-11,Filled
+R5500,Operations,Payment Operations,Charlotte,L3,E112458,2026-05-24,2026-07-01,Filled
+R5501,Retail Banking,Contact Center,Charlotte,L2,E108645,2026-09-20,,Open
+R5502,Commercial Banking,Credit Analysis,Jacksonville,L3,E113927,2026-09-19,,Open
+R5503,Retail Banking,Branch Banking,Jacksonville,L3,E113295,2026-10-26,,Open
+R5504,Retail Banking,Relationship Banking,Phoenix,L2,E109362,2026-07-31,2026-09-09,Filled
+R5505,Technology,Data & Analytics,Jacksonville,L1,E104833,2026-05-09,2026-06-15,Filled
+R5506,Wealth Management,Portfolio Management,Chicago,L2,E105151,2026-05-16,2026-07-08,Filled
+R5507,Operations,Reconciliation,Phoenix,L3,E112810,2026-06-16,2026-07-29,Filled
+R5508,Technology,Data & Analytics,Charlotte,L3,E102870,2026-04-17,2026-05-16,Filled
+R5509,Wealth Management,Financial Advisory,Charlotte,L3,E113544,2026-10-19,,Open
+R5510,Risk & Finance,Risk Management,New York,L2,E107800,2026-04-22,2026-06-11,Filled
+R5511,Commercial Banking,Commercial Lending,Chicago,L1,E112212,2026-07-11,2026-09-03,Filled
+R5512,Retail Banking,Branch Banking,New York,L2,E112410,2026-09-01,2026-10-13,Filled
+R5513,Wealth Management,Portfolio Management,New York,L1,E102167,2026-07-21,2026-08-22,Filled
+R5514,Retail Banking,Relationship Banking,Phoenix,L2,E110506,2026-01-25,2026-03-08,Filled
+R5515,Technology,Infrastructure,Charlotte,L1,E104134,2026-02-28,2026-04-15,Filled
+R5516,Commercial Banking,Commercial Lending,Dallas,L3,E112975,2026-01-11,2026-02-17,Filled
+R5517,Technology,Data & Analytics,Jacksonville,L2,E109614,2026-05-25,2026-07-06,Filled
+R5518,Retail Banking,Contact Center,Jacksonville,L2,E107051,2026-03-17,2026-04-23,Filled
+R5519,Operations,Loan Operations,Charlotte,L1,E100442,2026-03-31,2026-05-16,Filled
+R5520,Retail Banking,Branch Banking,Phoenix,L2,E106929,2026-04-17,2026-06-01,Filled
+R5521,Wealth Management,Client Service,Denver,L3,E114672,2026-05-17,2026-07-21,Filled
+R5522,Technology,Infrastructure,Charlotte,L3,E108343,2026-04-19,2026-05-30,Filled
+R5523,Technology,Infrastructure,Jacksonville,L3,E111122,2026-02-27,2026-04-05,Filled
+R5524,Commercial Banking,Treasury Services,New York,L3,E104146,2026-08-28,2026-10-19,Filled
+R5525,Retail Banking,Contact Center,Dallas,L1,E108930,2026-03-24,2026-05-18,Filled
+R5526,Commercial Banking,Commercial Lending,Denver,L2,E109215,2026-07-16,2026-08-25,Filled
+R5527,Technology,Software Engineering,New York,L4,E112962,2026-05-02,2026-07-20,Filled
+R5528,Wealth Management,Client Service,Denver,L4,E114672,2026-09-18,2026-10-21,Filled
+R5529,Retail Banking,Relationship Banking,Phoenix,L3,E110506,2026-04-02,2026-05-24,Filled
+R5530,Operations,Loan Operations,New York,L3,E108829,2026-09-12,,Open
+R5531,Retail Banking,Branch Banking,Minneapolis,L1,E104364,2026-05-18,2026-06-27,Filled
+R5532,Operations,Loan Operations,Charlotte,L3,E111918,2026-08-19,2026-10-08,Filled
+R5533,Operations,Loan Operations,Charlotte,L4,E111565,2026-05-27,2026-06-28,Filled
+R5534,Wealth Management,Client Service,Jacksonville,L3,E111644,2026-07-04,2026-08-23,Filled
+R5535,Risk & Finance,Finance & Accounting,New York,L2,E106211,2026-05-28,2026-06-28,Filled
+R5536,Operations,Loan Operations,Jacksonville,L4,E109978,2026-08-19,2026-10-04,Filled
+R5537,Retail Banking,Branch Banking,New York,L2,E102559,2026-05-30,2026-07-10,Filled
+R5538,Technology,Infrastructure,Dallas,L1,E112984,2026-06-03,2026-07-30,Filled
+R5539,Operations,Loan Operations,Denver,L1,E105158,2026-04-28,2026-05-26,Filled
+R5540,Risk & Finance,Finance & Accounting,Phoenix,L4,E103711,2026-05-11,2026-06-29,Filled
+R5541,Operations,Reconciliation,New York,L1,E113010,2026-08-11,2026-09-29,Filled
+R5542,Risk & Finance,Finance & Accounting,Chicago,L2,E101568,2026-03-03,2026-05-05,Filled
+R5543,Retail Banking,Branch Banking,New York,L2,E103456,2026-06-23,2026-08-24,Filled
+R5544,Commercial Banking,Commercial Lending,Denver,L2,E105601,2026-02-18,2026-04-12,Filled
+R5545,Risk & Finance,Compliance,Chicago,L3,E108436,2026-07-14,2026-09-01,Filled
+R5546,Retail Banking,Relationship Banking,Denver,L2,E112952,2026-03-23,2026-05-09,Filled
+R5547,Technology,Data & Analytics,New York,L4,E101648,2026-07-07,2026-08-20,Filled
+R5548,Retail Banking,Branch Banking,Phoenix,L4,E114899,2026-03-11,2026-04-15,Filled
+R5549,Retail Banking,Contact Center,Chicago,L4,E114321,2026-08-15,2026-10-15,Filled
+R5550,Risk & Finance,Risk Management,New York,L2,E102541,2026-02-10,2026-03-15,Filled
+R5551,Operations,Payment Operations,Charlotte,L1,E100079,2026-03-15,2026-04-20,Filled
+R5552,Operations,Payment Operations,Dallas,L3,E104855,2026-10-20,,Open
+R5553,Commercial Banking,Treasury Services,Chicago,L2,E106759,2026-09-29,,Open
+R5554,Operations,Payment Operations,Denver,L2,E112790,2026-04-14,2026-05-14,Filled
+R5555,Technology,Software Engineering,Chicago,L4,E114895,2026-06-01,2026-07-27,Filled
+R5556,Risk & Finance,Compliance,Denver,L4,E103693,2026-06-20,2026-07-24,Filled
+R5557,Wealth Management,Financial Advisory,Charlotte,L2,E113544,2026-08-10,2026-09-11,Filled
+R5558,Retail Banking,Branch Banking,Chicago,L4,E101280,2026-03-31,2026-05-15,Filled
+R5559,Retail Banking,Branch Banking,Jacksonville,L3,E108931,2026-05-17,2026-06-28,Filled
+R5560,Retail Banking,Relationship Banking,Minneapolis,L2,E101444,2026-03-24,2026-05-13,Filled
+R5561,Risk & Finance,Compliance,Minneapolis,L2,E101070,2026-01-29,2026-03-07,Filled
+R5562,Operations,Loan Operations,New York,L4,E110694,2026-06-10,2026-08-14,Filled
+R5563,Technology,Infrastructure,New York,L2,E102330,2026-09-06,2026-10-18,Filled
+R5564,Risk & Finance,Finance & Accounting,Charlotte,L3,E110682,2026-01-08,2026-02-10,Filled
+R5565,Technology,Infrastructure,Charlotte,L3,E113278,2026-04-13,2026-06-18,Filled
+R5566,Risk & Finance,Finance & Accounting,Dallas,L1,E111736,2026-03-12,2026-04-16,Filled
+R5567,Risk & Finance,Finance & Accounting,Jacksonville,L2,E103822,2026-06-13,2026-08-17,Filled
+R5568,Operations,Reconciliation,Dallas,L3,E110009,2026-06-19,2026-07-27,Filled
+R5569,Retail Banking,Branch Banking,Phoenix,L1,E109256,2026-10-16,,Open
+R5570,Wealth Management,Portfolio Management,Denver,L2,E101266,2026-08-09,2026-09-11,Filled
+R5571,Operations,Payment Operations,Dallas,L3,E104466,2026-03-16,2026-05-12,Filled
+R5572,Wealth Management,Portfolio Management,Denver,L1,E107391,2026-03-27,2026-05-17,Filled
+R5573,Commercial Banking,Credit Analysis,Jacksonville,L2,E106661,2026-01-18,2026-03-25,Filled
+R5574,Operations,Loan Operations,Jacksonville,L2,E111336,2026-01-07,2026-02-17,Filled
+R5575,Technology,Infrastructure,New York,L3,E105622,2026-10-28,,Open
+R5576,Retail Banking,Branch Banking,Minneapolis,L2,E104699,2026-06-05,2026-07-08,Filled
+R5577,Technology,Data & Analytics,Jacksonville,L1,E104981,2026-05-27,2026-07-17,Filled
+R5578,Operations,Reconciliation,Dallas,L1,E110594,2026-10-17,,Open
+R5579,Retail Banking,Branch Banking,New York,L2,E114235,2026-02-01,2026-03-03,Filled
+R5580,Retail Banking,Branch Banking,Phoenix,L3,E109256,2026-09-20,,Open
+R5581,Commercial Banking,Commercial Lending,Charlotte,L1,E112439,2026-10-23,,Open
+R5582,Wealth Management,Portfolio Management,New York,L3,E101169,2026-04-29,2026-06-07,Filled
+R5583,Retail Banking,Contact Center,Charlotte,L3,E102039,2026-10-28,,Open
+R5584,Risk & Finance,Risk Management,Phoenix,L4,E107990,2026-08-03,2026-08-31,Filled
+R5585,Technology,Data & Analytics,Jacksonville,L1,E109614,2026-08-05,2026-09-11,Filled
+R5586,Operations,Payment Operations,New York,L2,E107878,2026-08-08,,Open
+R5587,Retail Banking,Contact Center,New York,L3,E107287,2026-05-18,2026-06-21,Filled
+R5588,Technology,Data & Analytics,Charlotte,L2,E110017,2026-04-17,2026-06-15,Filled
+R5589,Operations,Loan Operations,Chicago,L4,E101581,2026-01-22,2026-02-19,Filled
+R5590,Wealth Management,Portfolio Management,Jacksonville,L1,E101211,2026-07-15,2026-08-24,Filled
+R5591,Retail Banking,Contact Center,Chicago,L2,E111258,2026-05-16,2026-06-19,Filled
+R5592,Retail Banking,Branch Banking,Jacksonville,L2,E104044,2026-10-22,,Open
+R5593,Retail Banking,Branch Banking,Charlotte,L2,E115153,2026-08-16,2026-09-14,Filled
+R5594,Wealth Management,Client Service,Minneapolis,L3,E106324,2026-01-19,,Open
+R5595,Wealth Management,Portfolio Management,Charlotte,L3,E105990,2026-09-23,,Open
+R5596,Wealth Management,Financial Advisory,Charlotte,L4,E112869,2026-07-08,2026-08-24,Filled
+R5597,Risk & Finance,Finance & Accounting,Jacksonville,L2,E107088,2026-01-26,2026-04-02,Filled
+R5598,Operations,Loan Operations,Dallas,L3,E112548,2026-04-27,2026-06-09,Filled
+R5599,Operations,Payment Operations,Charlotte,L3,E100335,2026-06-24,2026-08-10,Filled
+R5600,Commercial Banking,Credit Analysis,Chicago,L3,E108900,2026-07-12,2026-08-10,Filled
+R5601,Commercial Banking,Treasury Services,Chicago,L2,E106759,2026-06-05,2026-08-09,Filled
+R5602,Risk & Finance,Compliance,Dallas,L2,E112066,2026-03-12,2026-05-08,Filled
+R5603,Retail Banking,Relationship Banking,Dallas,L2,E110157,2026-08-13,2026-10-08,Filled
+R5604,Retail Banking,Branch Banking,Chicago,L3,E105465,2026-07-06,2026-08-22,Filled
+R5605,Operations,Loan Operations,Denver,L3,E100251,2026-06-10,2026-07-23,Filled
+R5606,Retail Banking,Relationship Banking,Chicago,L3,E113053,2026-02-11,2026-04-13,Filled
+R5607,Wealth Management,Financial Advisory,Charlotte,L4,E115049,2026-05-03,2026-06-16,Filled
+R5608,Wealth Management,Portfolio Management,New York,L4,E101169,2026-10-28,,Open
+R5609,Commercial Banking,Credit Analysis,Denver,L3,E105646,2026-06-08,2026-07-27,Filled
+R5610,Technology,Infrastructure,Dallas,L2,E104380,2026-10-27,,Open
+R5611,Technology,Infrastructure,Chicago,L4,E112375,2026-09-14,,Open
+R5612,Operations,Payment Operations,Chicago,L2,E109867,2026-02-14,2026-04-23,Filled
+R5613,Retail Banking,Contact Center,Phoenix,L4,E114145,2026-09-09,,Open
+R5614,Risk & Finance,Finance & Accounting,New York,L3,E110311,2026-05-22,2026-07-06,Filled
+R5615,Retail Banking,Branch Banking,New York,L3,E110721,2026-03-28,2026-05-25,Filled
+R5616,Technology,Data & Analytics,Charlotte,L3,E108875,2026-02-02,2026-03-12,Filled
+R5617,Commercial Banking,Treasury Services,Chicago,L3,E106759,2026-08-09,2026-10-03,Filled
+R5618,Commercial Banking,Treasury Services,New York,L3,E109529,2026-09-29,,Open
+R5619,Risk & Finance,Finance & Accounting,Charlotte,L1,E111508,2026-02-08,2026-04-03,Filled
+R5620,Risk & Finance,Finance & Accounting,Dallas,L2,E104454,2026-02-12,2026-03-22,Filled
+R5621,Wealth Management,Portfolio Management,Denver,L2,E107391,2026-06-20,2026-08-08,Filled
+R5622,Risk & Finance,Finance & Accounting,New York,L2,E113652,2026-10-01,,Open
+R5623,Retail Banking,Branch Banking,Jacksonville,L3,E108931,2026-04-26,2026-06-29,Filled
+R5624,Technology,Software Engineering,Chicago,L3,E108877,2026-04-18,2026-06-18,Filled
+R5625,Retail Banking,Branch Banking,New York,L4,E110721,2026-10-12,,Open
+R5626,Technology,Software Engineering,Phoenix,L2,E110006,2026-09-09,,Open
+R5627,Technology,Infrastructure,Charlotte,L2,E111966,2026-07-07,2026-09-07,Filled
+R5628,Operations,Payment Operations,Charlotte,L1,E100079,2026-09-24,,Open
+R5629,Commercial Banking,Commercial Lending,Dallas,L1,E103282,2026-04-08,2026-06-05,Filled
+R5630,Wealth Management,Portfolio Management,Chicago,L3,E109944,2026-10-31,,Open
+R5631,Retail Banking,Branch Banking,New York,L3,E110721,2026-01-29,2026-03-07,Filled
+R5632,Operations,Payment Operations,Charlotte,L3,E100079,2026-03-07,2026-05-01,Filled
+R5633,Risk & Finance,Finance & Accounting,Dallas,L3,E110185,2026-03-02,2026-04-02,Filled
+R5634,Technology,Software Engineering,Dallas,L3,E108183,2026-07-06,2026-09-06,Filled
+R5635,Technology,Software Engineering,Charlotte,L2,E109791,2026-02-03,,Open
+R5636,Operations,Loan Operations,Dallas,L2,E105556,2026-07-29,2026-09-05,Filled
+R5637,Retail Banking,Branch Banking,New York,L2,E111970,2026-09-04,2026-10-12,Filled
+R5638,Wealth Management,Client Service,Jacksonville,L1,E111644,2026-01-14,2026-03-15,Filled
+R5639,Operations,Loan Operations,Dallas,L3,E110066,2026-03-22,2026-04-20,Filled
+R5640,Technology,Infrastructure,Denver,L4,E104749,2026-10-28,,Open
+R5641,Wealth Management,Client Service,Charlotte,L2,E107221,2026-08-18,,Open
+R5642,Wealth Management,Client Service,Charlotte,L2,E107221,2026-08-04,,Open
+R5643,Wealth Management,Client Service,Charlotte,L2,E107221,2026-07-28,,Open
+R5644,Wealth Management,Client Service,Charlotte,L2,E107221,2026-07-11,,Open
+R5645,Wealth Management,Client Service,Charlotte,L2,E107221,2026-06-22,,Open
+R5646,Wealth Management,Client Service,Charlotte,L2,E107221,2026-06-07,,Open
+R5647,Operations,Payment Operations,Jacksonville,L1,E113794,2026-07-14,,Open
+R5648,Operations,Payment Operations,Charlotte,L1,E112784,2026-10-11,,Open
+R5649,Operations,Payment Operations,New York,L1,E102919,2026-09-27,,Open
+R5650,Operations,Payment Operations,Charlotte,L2,E100079,2026-06-26,,Open
+R5651,Operations,Payment Operations,Phoenix,L2,E106746,2026-09-04,,Open
+R5652,Operations,Payment Operations,Minneapolis,L1,E108220,2026-07-30,,Open
+R5653,Operations,Payment Operations,Chicago,L1,E114388,2026-09-13,,Open
+R5654,Operations,Payment Operations,Charlotte,L1,E101294,2026-06-19,,Open
+R5655,Operations,Payment Operations,Phoenix,L2,E102174,2026-10-02,,Open
+R5656,Operations,Payment Operations,New York,L1,E111311,2026-09-13,,Open
+R5657,Operations,Payment Operations,Charlotte,L1,E111935,2026-07-29,,Open
+R5658,Operations,Payment Operations,Chicago,L2,E103521,2026-07-11,,Open
+R5659,Operations,Payment Operations,Jacksonville,L1,E100091,2026-08-26,,Open
+R5660,Operations,Payment Operations,Phoenix,L1,E111445,2026-06-15,,Open
