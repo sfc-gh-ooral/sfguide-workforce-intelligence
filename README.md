@@ -14,14 +14,14 @@ screens through different policies:
 
 | Persona | Snowflake role | What Snowflake enforces |
 |---|---|---|
-| HR business partner | `WI_HRBP_ROLE` | Row access: Operations only. Pay masked to $10k bands. Gender and ethnicity masked. |
-| Compensation analyst | `WI_COMP_ROLE` | All business units, exact pay, and protected attributes for equity analysis |
+| HR business partner | `WI_HRBP_ROLE` | Row access: Operations only. Base, bonus, and band amounts rounded down to $10k; compa-ratio rounded down to one decimal. Gender and ethnicity masked. No access to model features, pay-equity cells, or team-member detail. |
+| Compensation analyst | `WI_COMP_ROLE` | All business units, exact pay, and protected attributes for equity analysis. Team-member detail without risk scores. |
 | CHRO | `WI_CHRO_ROLE` | Aggregation policy: every group must have at least 10 people, and smaller groups are merged into a remainder row. Pay gaps masked for small cells. |
 
 The app has six screens:
 
 1. **Workforce overview:** headcount, hires, exits, rolling 12-month attrition, and time to fill, by business unit.
-2. **Attrition risk:** teams (not individuals) ranked by modeled risk, with top drivers. The drill-down shows the hiring backlog, an AI conversation plan, and employee rows for the compensation analyst only.
+2. **Attrition risk:** teams (not individuals) ranked by modeled risk, with top drivers. The drill-down shows the team's risk bands, the hiring backlog, an AI conversation plan, and, for the compensation analyst only, team members without risk scores. No persona can read an individual's risk score: an aggregation policy on the scores requires groups of 3 or more.
 3. **Pay equity:** the regression-adjusted gap by job family and level, cohorts below band, and an AI **Explain** panel.
 4. **Voice of employee:** survey themes and sentiment over four cycles, with an AI summary.
 5. **Ask HR data:** a Cortex Agent for plain-English questions, running as the persona's role.
@@ -41,8 +41,14 @@ The app has six screens:
 | Local | Node.js 20 or later | Node.js 20 or later, plus a key pair for your Snowflake user |
 
 Tested in November 2026 with Node.js 22, Next.js 16, and `snowflake-sdk` 3.4, on an Enterprise
-account in AWS US East 1, with `claude-sonnet-4-5` for `AI_COMPLETE`. All features used are
-generally available; none are in preview (checked against the Snowflake documentation in November 2026).
+account in AWS US East 1, with `claude-sonnet-4-5` for `AI_COMPLETE`.
+
+**Preview features.** This example labels **aggregation policies as Preview**. They were announced
+as a preview feature, and the related tag-based aggregation policies page is still marked Preview,
+so check the [aggregation policies documentation](https://docs.snowflake.com/en/user-guide/aggregation-policies)
+for the current status in your account. The other features used were documented without a preview
+label when checked in November 2026. `AI_CLASSIFY` lists document input as Preview; this example
+classifies text only.
 
 ## Quick start: no-account mode
 
@@ -58,11 +64,16 @@ credentials. AI buttons wait a few seconds, show the steps the live path runs, a
 scripted answers labeled **Sample AI response**. Use **View as** in the header to switch
 personas.
 
+> **View as isn't sign-in.** In Live mode, **View as** switches between the persona roles that one
+> local Snowflake user holds (setup grants all three to you). It doesn't authenticate anyone. In a
+> real deployment, each person signs in as themselves and holds only their own role.
+
 ## Live mode: deploy to your account
 
 1. **Run the setup script.** Open a Snowsight SQL worksheet, choose ACCOUNTADMIN, and run
-   [`sql/setup.sql`](sql/setup.sql) top to bottom. No edits are needed. It takes about 3 minutes on
-   XSMALL, most of it the Cortex AI functions over 10,727 survey comments and model training.
+   [`sql/setup.sql`](sql/setup.sql) top to bottom. No edits are needed. It takes about 2–3 minutes on
+   XSMALL (131 and 147 seconds in two test runs), most of it the Cortex AI functions over 10,727
+   survey comments and model training.
    The script loads the synthetic CSVs from this public repository through a Git repository
    object, so no file upload is needed. It also grants the three persona roles to the user who
    runs it.
@@ -96,18 +107,18 @@ To remove everything, run [`sql/cleanup.sql`](sql/cleanup.sql) as ACCOUNTADMIN.
 | Object | Name | Purpose |
 |---|---|---|
 | Roles | `WORKFORCE_DEMO_ROLE` | Owns every object below. Holds only the grants the example needs. |
-| | `WI_HRBP_ROLE`, `WI_COMP_ROLE`, `WI_CHRO_ROLE` | Personas: read access to the schema, plus insert on `ACTIONS` |
+| | `WI_HRBP_ROLE`, `WI_COMP_ROLE`, `WI_CHRO_ROLE` | Personas: explicit grants on the tables and views the app reads, plus insert on `ACTIONS`. `EMPLOYEE_FEATURES`, `V_TRAINING`, `V_SCORING`, and `BU_ACCESS` aren't granted to any persona. |
 | API integration | `WI_GIT_API_INTEGRATION` | Read-only access to this public repository, with no credentials |
 | Warehouse | `WORKFORCE_INTEL_WH` | XSMALL, `AUTO_SUSPEND = 60`, starts suspended |
 | Database, schema | `WORKFORCE_INTEL_DB.HR` | Everything else lives here |
 | Git repository, stage | `WI_REPO`, `WI_DATA` | Source of the synthetic CSVs |
 | Tables | `EMPLOYEES`, `COMPENSATION`, `PERFORMANCE`, `PROMOTIONS`, `TERMINATIONS`, `REQUISITIONS`, `ENGAGEMENT_SURVEY`, `BU_ACCESS`, `ACTIONS` | Synthetic HR data, the persona-to-business-unit mapping, and recorded decisions |
-| Derived tables | `SURVEY_AI`, `EMPLOYEE_RISK`, `FEATURE_IMPORTANCE`, `PAY_EQUITY_CELLS` | AI theme and sentiment, model scores, feature importance, adjusted gaps |
-| Dynamic table | `EMPLOYEE_FEATURES` | Attrition model features, `TARGET_LAG = '7 days'` |
+| Derived tables | `SURVEY_AI`, `EMPLOYEE_RISK`, `FEATURE_IMPORTANCE`, `PAY_EQUITY_CELLS` | AI theme and sentiment, model scores with risk bands and 0/1 driver flags (no pay, rating, or tenure), feature importance, adjusted gaps |
+| Dynamic table | `EMPLOYEE_FEATURES` | Attrition model features, `TARGET_LAG = '7 days'`. Owner-only, with row access and aggregation policies as defense in depth. |
 | ML model | `ATTRITION_MODEL` | `SNOWFLAKE.ML.CLASSIFICATION` |
 | Procedure, task | `RETRAIN_ATTRITION_MODEL`, `RETRAIN_ATTRITION_WEEKLY` | Weekly retrain and rescore. The task is created **suspended**. Run `ALTER TASK ... RESUME` to schedule it. |
-| Views | `V_WORKFORCE`, `V_EXITS`, `V_OPEN_REQS`, `V_TEAMS`, `V_MONTHS`, `V_TRAINING` | App, model, and semantic view inputs |
-| Policies | `PAY_MASK`, `PROTECTED_ATTR_MASK`, `SMALL_CELL_GAP_MASK` (masking), `BU_ROW_ACCESS` (row access), `MIN_GROUP_10` (aggregation) | Governance by role |
+| Views | `V_WORKFORCE`, `V_EXITS`, `V_OPEN_REQS`, `V_TEAMS`, `V_MONTHS`, `V_TEAM_MEMBERS`, `V_TRAINING`, `V_SCORING` | App and semantic view inputs. `V_TEAM_MEMBERS` is granted only to the compensation analyst; `V_TRAINING` and `V_SCORING` are owner-only model inputs. |
+| Policies | `PAY_MASK`, `COMPA_MASK`, `PROTECTED_ATTR_MASK`, `SMALL_CELL_GAP_MASK` (masking), `BU_ROW_ACCESS` (row access), `MIN_GROUP_10`, `RISK_MIN_GROUP` (aggregation, Preview) | Governance by role. Every policy is an allowlist: roles it doesn't name, including ACCOUNTADMIN, get the most restricted result. |
 | Semantic view | `WORKFORCE_SV` | Headcount, exits, and requisitions for Cortex Analyst |
 | Cortex Agent | `WORKFORCE_AGENT` | Plain-English Q&A over `WORKFORCE_SV` |
 
@@ -117,7 +128,7 @@ that already exists.
 
 ### Expected cost and time
 
-- **Setup:** about 3 minutes on XSMALL. In testing, a full setup plus an hour of clicking through
+- **Setup:** about 2–3 minutes on XSMALL. In testing, a full setup plus an hour of clicking through
   every screen and persona in Live mode used about **0.56 warehouse credits**.
 - **Cortex AI:** token-based and billed separately. Setup runs `AI_SENTIMENT` and `AI_CLASSIFY`
   once over 10,727 short comments. Each AI button or agent question in the app makes one call.
@@ -132,8 +143,20 @@ that already exists.
   `lib/mock-source.ts` (the bundled JSON). Live mode calls `app/api/*`, which runs
   `lib/live-queries.ts` through `lib/snowflake.ts` with bind variables for every value.
 - **Governed by Snowflake, not the app.** Masking, row access, and aggregation policies are
-  attached to the base tables and key off `CURRENT_ROLE()`. Queries the CHRO can run use only
-  `COUNT`, `SUM`, and `AVG` with `GROUP BY`, which is what an aggregation policy allows.
+  attached to the base tables and key off `CURRENT_ROLE()`. Each policy names the roles allowed to
+  see more; any other role gets the most restricted result.
+  - **Pay can't be rebuilt from bands.** The HRBP sees base, bonus, and band min, mid, and max
+    rounded down to $10k, and compa-ratio rounded down to one decimal. In a live test,
+    compa-ratio × band midpoint was within $1k of true base for 33 of 2,238 HRBP-visible
+    employees (median error $7,800).
+  - **Model inputs aren't exposed.** `EMPLOYEE_FEATURES` refreshes as the owner role, so it holds
+    every business unit's rows. No persona is granted it, or the views over it (`V_TRAINING`,
+    `V_SCORING`). As the HRBP, CHRO, and compensation analyst, `SELECT` from them returns "does not
+    exist or not authorized".
+  - **No individual risk scores.** `RISK_MIN_GROUP` on `EMPLOYEE_RISK` requires groups of 3 or more
+    for the HRBP and compensation analyst, and 10 for everyone else. Reading individual scores
+    fails with "aggregation required". The app's risk queries use only `COUNT`, `SUM`, and `AVG`
+    with `GROUP BY`, which is what an aggregation policy allows.
 - **Adjusted pay gap.** Within each job family × level, log base pay and tenure are demeaned by
   rating group, log pay is regressed on tenure, and the gap is the difference in mean residuals
   for women and men. That controls for tenure and latest rating.
@@ -154,9 +177,15 @@ that already exists.
   model would avoid with point-in-time features. Live scores come from ML Classification, and
   Sample scores from a fixed formula, so their rankings differ somewhat (see
   [`data/README.md`](data/README.md)).
-- **Employee-level drill-down is limited by the app, not a policy.** The HRBP's names aren't
-  masked, because team labels use manager names. The app shows named employee rows only to the
-  compensation analyst. Pay and protected attributes are masked by Snowflake.
+- **Fairness and individual decisions.** The model's features exclude protected attributes
+  (`V_TRAINING` has no gender or ethnicity), but proxies such as location, schedule, and job
+  family can still carry bias. The model hasn't been validated for bias or disparate impact, and
+  it must not drive decisions about individual employees. Scores are shown only as team averages
+  and risk bands.
+- **What the HRBP can still see.** Snowflake hides individual risk scores and team-member detail
+  from the HRBP. By design, the HRBP can still query Operations employee records in `V_WORKFORCE`
+  (names, job, location, and pay rounded to $10k, with gender and ethnicity masked). Names aren't
+  masked, because team labels use manager names.
 - **Aggregation policy trade-offs.** CHRO queries can't use window functions or `AI_AGG`. Monthly
   series with small counts can lose rows to the remainder group.
 - **Agent answers vary.** Cortex Agent wording, and occasionally the generated SQL, can differ

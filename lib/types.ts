@@ -16,9 +16,9 @@ export interface TeamRow {
   size: number; span: number; avgRisk: number; highRisk: number; volExits12m: number;
   openReqs: number; openReqs60: number; avgEngagement: number; drivers: Driver[];
 }
-export interface TeamEmployee { id: string; name: string; level: string; tenure: number; rating: number; engagement: number; compa: number; base: number; monthsSincePromo: number; risk: number }
+export interface TeamEmployee { id: string; name: string; level: string; tenure: number; rating: number; engagement: number; compa: number; base: number; monthsSincePromo: number }
 export interface Req { req_id: string; bu?: string; job_family: string; location: string; level: string; opened_date: string; status: string; age: number }
-export interface TeamDetail extends TeamRow { employees: TeamEmployee[] | null; reqs: Req[]; riskBands: { label: string; count: number }[] }
+export interface TeamDetail extends TeamRow { employees: TeamEmployee[] | null; reqs: Req[]; riskBands: { label: string; count: number | null }[] }
 export interface AggGroup { group: string; bu: string; family: string; location: string; level: string; size: number; avgRisk: number }
 export type Attrition =
   | { mode: 'teams'; teams: TeamRow[]; details: Record<string, TeamDetail>; wideSpans: { manager: string; team: string; span: number }[] }

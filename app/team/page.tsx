@@ -63,7 +63,7 @@ function TeamView() {
           <div className="eyebrow mb-2">People by risk band</div>
           <div className="h-[150px]">
             <ResponsiveContainer>
-              <BarChart data={data.riskBands} margin={{ left: 0, right: 8 }}>
+              <BarChart data={data.riskBands.map((b) => ({ ...b, count: b.count ?? 0 }))} margin={{ left: 0, right: 8 }}>
                 <XAxis dataKey="label" {...axis} />
                 <YAxis {...axis} width={28} allowDecimals={false} />
                 <Tooltip {...chartTooltip} />
@@ -71,6 +71,10 @@ function TeamView() {
               </BarChart>
             </ResponsiveContainer>
           </div>
+          <p className="text-[12px] mt-2" style={{ color: 'var(--muted)' }}>
+            {data.riskBands.some((b) => b.count === null) && <>Bands with fewer than 3 people aren&apos;t shown ({data.riskBands.filter((b) => b.count === null).map((b) => b.label.split(' ')[0]).join(', ')}). </>}
+            The RISK_MIN_GROUP aggregation policy returns scores only for groups of 3 or more, so no persona can read an individual&apos;s score.
+          </p>
         </Card>
         <Card eyebrow="AI conversation plan" title="Prepare for the manager conversation" actions={<Policy>Team-level inputs only</Policy>}>
           <AiPanel kind="team-brief" label="Draft a conversation plan" resetKey={data.teamId} args={{ teamId: data.teamId }} sample={() => sampleTeamBrief(data)}
@@ -89,22 +93,22 @@ function TeamView() {
         </Card>
       )}
       {data.employees ? (
-        <Card eyebrow="Compensation analyst view" title="Employee-level detail" actions={<><Policy>Full pay detail</Policy><span className="chip chip-warn">Illustrative scores. Not for individual decisions.</span></>}>
+        <Card eyebrow="Compensation analyst view" title="Team members (no individual risk scores)" actions={<><Policy>V_TEAM_MEMBERS · WI_COMP_ROLE only</Policy><Policy>Full pay detail</Policy></>}>
           <div className="overflow-x-auto"><table className="table">
-            <thead><tr><th>Employee</th><th>Level</th><th className="text-right">Tenure</th><th className="text-right">Rating</th><th className="text-right">Engagement</th><th className="text-right">Base</th><th className="text-right">Compa</th><th className="text-right">Months since promo</th><th className="text-right">Risk</th></tr></thead>
+            <thead><tr><th>Employee</th><th>Level</th><th className="text-right">Tenure</th><th className="text-right">Rating</th><th className="text-right">Engagement</th><th className="text-right">Base</th><th className="text-right">Compa</th><th className="text-right">Months since promo</th></tr></thead>
             <tbody>{data.employees.map((e) => (
               <tr key={e.id}><td><span className="font-semibold">{e.name}</span> <span className="text-[11.5px]" style={{ color: 'var(--muted)' }}>{e.id}</span></td><td>{e.level}</td>
                 <td className="text-right tabular">{e.tenure.toFixed(1)} yr</td><td className="text-right tabular">{e.rating}</td><td className="text-right tabular">{e.engagement.toFixed(1)}</td>
-                <td className="text-right tabular">${e.base.toLocaleString()}</td><td className="text-right tabular">{e.compa.toFixed(2)}</td><td className="text-right tabular">{e.monthsSincePromo}</td>
-                <td className="text-right tabular font-semibold">{pct(e.risk)}</td></tr>
+                <td className="text-right tabular">${e.base.toLocaleString()}</td><td className="text-right tabular">{e.compa.toFixed(2)}</td><td className="text-right tabular">{e.monthsSincePromo}</td></tr>
             ))}</tbody>
           </table></div>
+          <p className="text-[12px] mt-3" style={{ color: 'var(--muted)' }}>Sorted by name. Individual risk scores aren&apos;t shown to any persona, and the model isn&apos;t validated for individual employment decisions.</p>
         </Card>
       ) : (
         <Card>
           <div className="flex items-start gap-3">
             <ShieldCheck className="w-5 h-5 mt-0.5" style={{ color: 'var(--violet)' }} />
-            <p className="text-[13.5px]" style={{ color: 'var(--ink-2)' }}><strong>Employee-level rows are hidden for the HR business partner.</strong> HRBPs work at the team level. Switch to the compensation analyst view to see named records, with exact pay.</p>
+            <p className="text-[13.5px]" style={{ color: 'var(--ink-2)' }}><strong>Team-member detail isn&apos;t granted to the HR business partner.</strong> In Snowflake, V_TEAM_MEMBERS is granted only to WI_COMP_ROLE, and RISK_MIN_GROUP stops any role from reading individual scores. Switch to the compensation analyst view to see team members with exact pay.</p>
           </div>
         </Card>
       )}

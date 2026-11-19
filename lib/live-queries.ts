@@ -81,7 +81,9 @@ export async function liveOverview(p: PersonaId): Promise<Overview> {
 
 // ---------------------------------------------------------------- attrition
 // Team drivers: share of the team with each flag, weighted by the model's feature importance
-// (FEATURE_IMPORTANCE from ATTRITION_MODEL!SHOW_FEATURE_IMPORTANCE).
+// (FEATURE_IMPORTANCE from ATTRITION_MODEL!SHOW_FEATURE_IMPORTANCE). EMPLOYEE_RISK carries 0/1 flags
+// so these queries use only AVG, SUM, and COUNT: its aggregation policy (RISK_MIN_GROUP) requires
+// groups of 3 or more, so no role can read an individual score.
 const DRIVER_MAP: [string, string, string][] = [
   ['F_SHIFT', 'Rotating-shift schedule', 'WORK_SCHEDULE'],
   ['F_ENG', 'Low engagement score', 'LAST_ENGAGEMENT'],
@@ -97,11 +99,9 @@ async function liveTeams(p: PersonaId, teamId?: string): Promise<TeamRow[]> {
   const binds = teamId ? [teamId] : [];
   const [rows, reqs, exits, fi] = await Promise.all([
     query(p, `SELECT r.team_id AS ID, t.team_name AS NAME, t.business_unit AS BU, t.job_family AS FAM, t.location AS LOC, t.manager_name AS MGR,
-                     COUNT(*) AS N, AVG(r.risk) AS RISK, AVG(r.last_engagement) AS ENG, SUM(IFF(r.risk >= 0.35, 1, 0)) AS HIGH,
-                     AVG(IFF(r.work_schedule = 'Rotating shifts', 1, 0)) AS F_SHIFT, AVG(IFF(r.last_engagement < 3, 1, 0)) AS F_ENG,
-                     AVG(IFF(r.compa_ratio < 0.9, 1, 0)) AS F_COMPA, AVG(IFF(r.tenure_years < 2, 1, 0)) AS F_TENURE,
-                     AVG(IFF(r.months_since_promo > 36, 1, 0)) AS F_PROMO, MAX(IFF(r.manager_span > 15, 1, 0)) AS F_SPAN,
-                     MAX(IFF(r.team_open_reqs_60 > 0, 1, 0)) AS F_REQS, MAX(r.manager_span) AS SPAN
+                     COUNT(*) AS N, AVG(r.risk) AS RISK, AVG(r.last_engagement) AS ENG, SUM(r.high_risk) AS HIGH,
+                     AVG(r.f_shift) AS F_SHIFT, AVG(r.f_eng) AS F_ENG, AVG(r.f_compa) AS F_COMPA, AVG(r.f_tenure) AS F_TENURE,
+                     AVG(r.f_promo) AS F_PROMO, AVG(r.f_span) AS F_SPAN, AVG(r.f_reqs) AS F_REQS, AVG(r.manager_span) AS SPAN
               FROM EMPLOYEE_RISK r JOIN V_TEAMS t ON t.team_id = r.team_id ${where}
               GROUP BY 1, 2, 3, 4, 5, 6 HAVING COUNT(*) >= 3 ORDER BY RISK DESC LIMIT 40`, binds),
     query(p, `SELECT hiring_manager_id AS ID, COUNT(*) AS OPEN, COUNT_IF(age_days > 60) AS OPEN60 FROM V_OPEN_REQS WHERE status = 'Open' GROUP BY 1`),
@@ -153,21 +153,21 @@ export async function liveTeamDetail(p: PersonaId, teamId: string): Promise<Team
   const [reqs, bands, emps] = await Promise.all([
     query(p, `SELECT req_id, job_family, location, job_level, opened_date, status, age_days FROM V_OPEN_REQS
               WHERE hiring_manager_id = ? AND status = 'Open' ORDER BY age_days DESC`, [teamId]),
-    query(p, `SELECT CASE WHEN risk < 0.2 THEN 'Low (<20%)' WHEN risk < 0.35 THEN 'Elevated (20–35%)' ELSE 'High (≥35%)' END AS B, COUNT(*) AS N
-              FROM EMPLOYEE_RISK WHERE team_id = ? GROUP BY 1`, [teamId]),
-    // The app shows named employees only to the compensation analyst persona.
+    // Bands with fewer than 3 people are merged into a NULL remainder row by RISK_MIN_GROUP.
+    query(p, `SELECT risk_band AS B, COUNT(*) AS N FROM EMPLOYEE_RISK WHERE team_id = ? GROUP BY 1`, [teamId]),
+    // V_TEAM_MEMBERS is granted only to WI_COMP_ROLE, and it carries no risk scores.
     p === 'comp'
-      ? query(p, `SELECT r.employee_id AS ID, w.full_name AS NAME, r.job_level AS LV, r.tenure_years AS T, r.last_rating AS RT, r.last_engagement AS E,
-                         r.compa_ratio AS C, w.base_salary AS B, r.months_since_promo AS MP, r.risk AS R
-                  FROM EMPLOYEE_RISK r JOIN V_WORKFORCE w ON w.employee_id = r.employee_id WHERE r.team_id = ? ORDER BY r.risk DESC`, [teamId])
+      ? query(p, `SELECT employee_id AS ID, full_name AS NAME, job_level AS LV, tenure_years AS T, last_rating AS RT, last_engagement AS E,
+                         compa_ratio AS C, base_salary AS B, months_since_promo AS MP
+                  FROM V_TEAM_MEMBERS WHERE team_id = ? ORDER BY full_name`, [teamId])
       : Promise.resolve(null),
   ]);
-  const bandMap = Object.fromEntries(bands.map((b) => [str(b.B), num(b.N)]));
+  const bandMap = Object.fromEntries(bands.filter((b) => b.B).map((b) => [str(b.B), num(b.N)]));
   return {
     ...row,
     reqs: reqs.map((r) => ({ req_id: str(r.REQ_ID), job_family: str(r.JOB_FAMILY), location: str(r.LOCATION), level: str(r.JOB_LEVEL), opened_date: str(r.OPENED_DATE).slice(0, 10), status: str(r.STATUS), age: num(r.AGE_DAYS) } as Req)),
-    riskBands: ['Low (<20%)', 'Elevated (20–35%)', 'High (≥35%)'].map((label) => ({ label, count: bandMap[label] ?? 0 })),
-    employees: emps ? emps.map((e) => ({ id: str(e.ID), name: str(e.NAME), level: str(e.LV), tenure: num(e.T), rating: num(e.RT), engagement: num(e.E), compa: num(e.C), base: num(e.B), monthsSincePromo: num(e.MP), risk: num(e.R) })) : null,
+    riskBands: ['Low (<20%)', 'Elevated (20–35%)', 'High (≥35%)'].map((label) => ({ label, count: bandMap[label] ?? null })),
+    employees: emps ? emps.map((e) => ({ id: str(e.ID), name: str(e.NAME), level: str(e.LV), tenure: num(e.T), rating: num(e.RT), engagement: num(e.E), compa: num(e.C), base: num(e.B), monthsSincePromo: num(e.MP) })) : null,
   };
 }
 
@@ -208,10 +208,9 @@ export async function livePayEquity(p: PersonaId): Promise<PayEquity> {
 
 export async function liveCohort(p: PersonaId): Promise<CohortMember[] | null> {
   if (p !== 'comp') return null;
-  const rows = await query(p, `SELECT w.employee_id AS ID, w.full_name AS NAME, w.gender AS G, w.tenure_years AS T, r.last_rating AS RT,
-                                      w.base_salary AS B, w.compa_ratio AS C, w.location AS L
-                               FROM V_WORKFORCE w JOIN EMPLOYEE_RISK r ON r.employee_id = w.employee_id
-                               WHERE w.job_family = ? AND w.job_level = ? AND w.gender IN ('Female', 'Male') ORDER BY w.compa_ratio`, ['Software Engineering', 'L4']);
+  const rows = await query(p, `SELECT employee_id AS ID, full_name AS NAME, gender AS G, tenure_years AS T, last_rating AS RT,
+                                      base_salary AS B, compa_ratio AS C, location AS L
+                               FROM V_TEAM_MEMBERS WHERE job_family = ? AND job_level = ? AND gender IN ('Female', 'Male') ORDER BY compa_ratio`, ['Software Engineering', 'L4']);
   return rows.map((r) => ({ id: str(r.ID), name: str(r.NAME), gender: str(r.G), tenure: num(r.T), rating: num(r.RT), base: num(r.B), compa: num(r.C), location: str(r.L) }));
 }
 

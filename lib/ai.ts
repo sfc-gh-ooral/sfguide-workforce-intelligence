@@ -97,13 +97,13 @@ export function sampleChat(q: string, b: PersonaBundle): string {
     const fam = Object.entries(a.opsReqs60ByFamily).sort((x, y) => y[1] - x[1]).map(([f, n]) => `${f} (${n})`).join(', ');
     return `Operations has **${a.opsReqs60} open requisitions older than 60 days**, as of 2026-10-31. By job family: ${fam}. Most of the Payment Operations reqs are backfills opened after the May 2026 schedule change.`;
   }
-  if (s.includes('salary') || s.includes('pay')) {
+  if (s.includes('leav') || s.includes('exit') || s.startsWith('why')) {
+    return `**${a.payOpsVolSinceChange} people** have left Payment Operations voluntarily since the May 2026 move to rotating shifts. The top exit reason is **"${a.payOpsTopReason}"**, well ahead of career opportunity and compensation. The same theme dominates the 2026-09 survey comments for the job family.`;
+  }
+  if (/\bsalary\b|\bbase\b|\bpay\b/.test(s)) {
     const k = (x: number) => `$${(x / 1000).toFixed(1)}k`;
     if (b.persona === 'hrbp') return `Average base salary in Payment Operations is **${k(a.payOpsAvgBaseMasked)}** across ${a.payOpsHeadcount} active employees. Pay is masked to $10k bands for your role, so this average comes from banded values and runs low. A compensation analyst sees exact figures.`;
     return `Average base salary in Payment Operations is **${k(a.payOpsAvgBase)}** across ${a.payOpsHeadcount} active employees.${b.persona === 'chro' ? ' This is an aggregate over a group well above the minimum size of 10.' : ''}`;
-  }
-  if (s.includes('leav') || s.includes('exit') || s.includes('why')) {
-    return `**${a.payOpsVolSinceChange} people** have left Payment Operations voluntarily since the May 2026 move to rotating shifts. The top exit reason is **"${a.payOpsTopReason}"**, well ahead of career opportunity and compensation. The same theme dominates the 2026-09 survey comments for the job family.`;
   }
   return 'In Sample mode I can answer the suggested questions. Switch to Live mode to ask Cortex Agent anything about headcount, exits, or requisitions.';
 }

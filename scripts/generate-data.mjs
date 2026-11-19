@@ -509,12 +509,17 @@ function attrition(persona) {
     const all = [t.manager, ...t.members.filter((p) => isActive(p))];
     details[row.teamId] = {
       ...row,
-      employees: persona === 'comp' ? all.sort((a, b) => b.risk - a.risk).map((p) => ({
+      // No individual risk scores for any persona; employee rows (comp analyst only) are sorted by name.
+      employees: persona === 'comp' ? [...all].sort((a, b) => a.name.localeCompare(b.name)).map((p) => ({
         id: p.id, name: p.name, level: p.level, tenure: round(tenureAt(p), 1), rating: p.lastRating, engagement: p.lastEngagement,
-        compa: p.compa, base: p.base, monthsSincePromo: monthsSincePromo(p), risk: p.risk,
+        compa: p.compa, base: p.base, monthsSincePromo: monthsSincePromo(p),
       })) : null,
       reqs: requisitions.filter((r) => r.hiring_manager_id === t.manager.id && r.status === 'Open').map((r) => ({ ...r, age: reqAge(r) })),
-      riskBands: [['Low (<20%)', 0, 0.2], ['Elevated (20–35%)', 0.2, 0.35], ['High (≥35%)', 0.35, 2]].map(([label, lo, hi]) => ({ label, count: all.filter((p) => p.risk >= lo && p.risk < hi).length })),
+      // Like RISK_MIN_GROUP in Snowflake: bands with fewer than 3 people aren't reported.
+      riskBands: [['Low (<20%)', 0, 0.2], ['Elevated (20–35%)', 0.2, 0.35], ['High (≥35%)', 0.35, 2]].map(([label, lo, hi]) => {
+        const n = all.filter((p) => p.risk >= lo && p.risk < hi).length;
+        return { label, count: n >= 3 ? n : null };
+      }),
     };
   }
   const managers = [...teams.values()].filter((t) => P.scope({ bu: t.bu })).map((t) => ({ manager: t.manager.name, team: teamName(t), span: t.members.filter((p) => isActive(p)).length })).filter((m) => m.span > 15).sort((a, b) => b.span - a.span);

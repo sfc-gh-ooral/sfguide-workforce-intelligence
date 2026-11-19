@@ -5,11 +5,12 @@
 -- about individual employees.
 -- ============================================================================
 -- Run top to bottom in a Snowsight SQL worksheet as ACCOUNTADMIN. No edits or
--- find-and-replace needed. It takes about 10–15 minutes on XSMALL, mostly
--- model training and the AI functions over ~9,700 survey comments.
+-- find-and-replace needed. It takes about 2–3 minutes on XSMALL (131 seconds in
+-- testing), mostly model training and the AI functions over 10,727 survey comments.
 --
 -- Requires:
---   * Enterprise Edition or higher (masking, row access, and aggregation policies)
+--   * Enterprise Edition or higher (masking, row access, and aggregation policies;
+--     aggregation policies are labeled Preview in this example, see the README)
 --   * Cortex AI functions, Cortex Analyst, and Cortex Agents in your region, or
 --     cross-region inference enabled (tested in AWS US East 1)
 --
@@ -20,9 +21,9 @@
 --                WI_CHRO_ROLE          CHRO persona (aggregates only)
 --   integration  WI_GIT_API_INTEGRATION  read-only access to the public repo
 --   warehouse    WORKFORCE_INTEL_WH    XSMALL, AUTO_SUSPEND = 60
---   database     WORKFORCE_INTEL_DB, schema HR: 9 tables, 1 dynamic table,
---                6 views, 4 policies, 1 ML classification model, 1 task
---                (suspended), 1 semantic view, 1 Cortex Agent, 1 git repository
+--   database     WORKFORCE_INTEL_DB, schema HR: 13 tables, 1 dynamic table,
+--                9 views, 7 policies, 1 ML classification model, 1 procedure,
+--                1 task (suspended), 1 semantic view, 1 Cortex Agent, 1 git repository
 -- It changes nothing that already exists.
 -- ============================================================================
 
@@ -184,14 +185,28 @@ CREATE OR REPLACE SNOWFLAKE.ML.CLASSIFICATION ATTRITION_MODEL(
   TARGET_COLNAME => 'LEFT_VOLUNTARILY',
   CONFIG_OBJECT => {'evaluate': TRUE});
 
--- Scores for active employees: probability of voluntary exit
-CREATE OR REPLACE TABLE EMPLOYEE_RISK AS
-SELECT employee_id, business_unit, team_id, job_family, job_level, location,
-       tenure_years, compa_ratio, last_rating, last_engagement, months_since_promo, manager_span, team_open_reqs_60, work_schedule,
-       ROUND(ATTRITION_MODEL!PREDICT(INPUT_DATA => OBJECT_CONSTRUCT(*)):probability:"True"::FLOAT, 3) AS risk
-FROM (SELECT employee_id, business_unit, team_id, job_family, job_level, location, work_schedule, remote_flag, tenure_years,
-             compa_ratio, last_rating, last_engagement, months_since_promo, manager_span, team_open_reqs_60
-      FROM EMPLOYEE_FEATURES WHERE status = 'Active');
+-- Scores for active employees: probability of voluntary exit. V_SCORING is owner-only.
+-- EMPLOYEE_RISK keeps the score and 0/1 driver flags, but not exact pay, rating, or tenure, and
+-- an aggregation policy (section 7) stops any persona from reading individual scores.
+CREATE OR REPLACE VIEW V_SCORING AS
+SELECT employee_id, business_unit, team_id, job_family, job_level, location, work_schedule, last_engagement, manager_span,
+       risk,
+       CASE WHEN risk < 0.2 THEN 'Low (<20%)' WHEN risk < 0.35 THEN 'Elevated (20–35%)' ELSE 'High (≥35%)' END AS risk_band,
+       IFF(risk >= 0.35, 1, 0) AS high_risk,
+       IFF(work_schedule = 'Rotating shifts', 1, 0) AS f_shift,
+       IFF(last_engagement < 3, 1, 0) AS f_eng,
+       IFF(compa_ratio < 0.9, 1, 0) AS f_compa,
+       IFF(tenure_years < 2, 1, 0) AS f_tenure,
+       IFF(months_since_promo > 36, 1, 0) AS f_promo,
+       IFF(manager_span > 15, 1, 0) AS f_span,
+       IFF(team_open_reqs_60 > 0, 1, 0) AS f_reqs
+FROM (SELECT f.*, ROUND(ATTRITION_MODEL!PREDICT(INPUT_DATA => OBJECT_CONSTRUCT(
+               'JOB_FAMILY', job_family, 'JOB_LEVEL', job_level, 'LOCATION', location, 'WORK_SCHEDULE', work_schedule,
+               'REMOTE_FLAG', remote_flag, 'TENURE_YEARS', tenure_years, 'COMPA_RATIO', compa_ratio, 'LAST_RATING', last_rating,
+               'LAST_ENGAGEMENT', last_engagement, 'MONTHS_SINCE_PROMO', months_since_promo, 'MANAGER_SPAN', manager_span,
+               'TEAM_OPEN_REQS_60', team_open_reqs_60)):probability:"True"::FLOAT, 3) AS risk
+      FROM EMPLOYEE_FEATURES f WHERE f.status = 'Active');
+CREATE OR REPLACE TABLE EMPLOYEE_RISK AS SELECT * FROM V_SCORING;
 
 CALL ATTRITION_MODEL!SHOW_FEATURE_IMPORTANCE();
 CREATE OR REPLACE TABLE FEATURE_IMPORTANCE AS SELECT * FROM TABLE(RESULT_SCAN(LAST_QUERY_ID()));
@@ -203,13 +218,9 @@ $$
 BEGIN
   CREATE OR REPLACE SNOWFLAKE.ML.CLASSIFICATION ATTRITION_MODEL(
     INPUT_DATA => SYSTEM$REFERENCE('VIEW', 'V_TRAINING'), TARGET_COLNAME => 'LEFT_VOLUNTARILY');
-  CREATE OR REPLACE TABLE EMPLOYEE_RISK COPY GRANTS AS
-  SELECT employee_id, business_unit, team_id, job_family, job_level, location,
-         tenure_years, compa_ratio, last_rating, last_engagement, months_since_promo, manager_span, team_open_reqs_60, work_schedule,
-         ROUND(ATTRITION_MODEL!PREDICT(INPUT_DATA => OBJECT_CONSTRUCT(*)):probability:"True"::FLOAT, 3) AS risk
-  FROM (SELECT employee_id, business_unit, team_id, job_family, job_level, location, work_schedule, remote_flag, tenure_years,
-               compa_ratio, last_rating, last_engagement, months_since_promo, manager_span, team_open_reqs_60
-        FROM EMPLOYEE_FEATURES WHERE status = 'Active');
+  -- Refresh in place, so the policies attached to EMPLOYEE_RISK stay attached.
+  DELETE FROM EMPLOYEE_RISK;
+  INSERT INTO EMPLOYEE_RISK SELECT * FROM V_SCORING;
   RETURN 'Retrained and rescored';
 END;
 $$;
@@ -270,6 +281,17 @@ SELECT m.employee_id AS team_id, m.full_name AS manager_name, m.business_unit, m
        m.job_family || ' · ' || m.location || ' (' || SPLIT_PART(m.full_name, ' ', -1) || ')' AS team_name
 FROM EMPLOYEES m WHERE m.is_manager AND m.status = 'Active';
 
+-- Employee-level team detail for the compensation analyst only (granted in section 9). Pay and
+-- demographics still pass through the masking policies on EMPLOYEES and COMPENSATION.
+CREATE OR REPLACE VIEW V_TEAM_MEMBERS COMMENT = 'Employee detail by team, without risk scores' AS
+SELECT f.employee_id, e.full_name, f.team_id, f.business_unit, f.job_family, f.job_level, f.location,
+       f.tenure_years, f.last_rating, f.last_engagement, f.months_since_promo,
+       c.base_salary, c.compa_ratio, e.gender
+FROM EMPLOYEE_FEATURES f
+JOIN EMPLOYEES e ON e.employee_id = f.employee_id
+JOIN COMPENSATION c ON c.employee_id = f.employee_id
+WHERE f.status = 'Active';
+
 CREATE OR REPLACE VIEW V_MONTHS AS
 SELECT DATEADD('month', SEQ4(), DATE '2024-11-01') AS month_start,
        LAST_DAY(DATEADD('month', SEQ4(), DATE '2024-11-01')) AS month_end
@@ -278,26 +300,49 @@ FROM TABLE(GENERATOR(ROWCOUNT => 24));
 -- --------------------------------------------------------------------------
 -- 7. GOVERNANCE: masking, row access, and aggregation policies
 -- --------------------------------------------------------------------------
--- Pay: the HRBP sees base and bonus rounded down to a $10k band; everyone else sees exact values.
+-- Every policy is an allowlist: it names the roles that may see more, and any other role
+-- (including ACCOUNTADMIN or a future role) gets the most restricted result.
+-- Pay amounts (base, bonus, and band min/mid/max): exact for the owner, compensation analyst, and
+-- CHRO; rounded down to a $10k band for the HRBP; hidden from every other role.
 CREATE OR REPLACE MASKING POLICY PAY_MASK AS (val NUMBER) RETURNS NUMBER ->
-  CASE WHEN CURRENT_ROLE() = 'WI_HRBP_ROLE' THEN FLOOR(val / 10000) * 10000 ELSE val END;
--- Protected attributes: hidden from the HRBP
+  CASE WHEN CURRENT_ROLE() IN ('WORKFORCE_DEMO_ROLE', 'WI_COMP_ROLE', 'WI_CHRO_ROLE') THEN val
+       WHEN CURRENT_ROLE() = 'WI_HRBP_ROLE' THEN FLOOR(val / 10000) * 10000
+       ELSE NULL END;
+-- Compa-ratio: rounded down to one decimal (0.9 means 0.90–0.99) for the HRBP, so banded pay can't be
+-- reconstructed as compa-ratio × band midpoint; hidden from every other role.
+CREATE OR REPLACE MASKING POLICY COMPA_MASK AS (val NUMBER(6,3)) RETURNS NUMBER(6,3) ->
+  CASE WHEN CURRENT_ROLE() IN ('WORKFORCE_DEMO_ROLE', 'WI_COMP_ROLE', 'WI_CHRO_ROLE') THEN val
+       WHEN CURRENT_ROLE() = 'WI_HRBP_ROLE' THEN FLOOR(val * 10) / 10
+       ELSE NULL END;
+-- Protected attributes: visible only for equity analysis (owner, compensation analyst, CHRO)
 CREATE OR REPLACE MASKING POLICY PROTECTED_ATTR_MASK AS (val STRING) RETURNS STRING ->
-  CASE WHEN CURRENT_ROLE() = 'WI_HRBP_ROLE' THEN '***' ELSE val END;
--- Pay-equity gaps: hidden from the CHRO for small cells (fewer than 10 women or 10 men)
+  CASE WHEN CURRENT_ROLE() IN ('WORKFORCE_DEMO_ROLE', 'WI_COMP_ROLE', 'WI_CHRO_ROLE') THEN val ELSE '***' END;
+-- Pay-equity gaps: exact for the owner and compensation analyst; hidden for small cells (fewer than
+-- 10 women or 10 men) for every other role
 CREATE OR REPLACE MASKING POLICY SMALL_CELL_GAP_MASK AS (val NUMBER, small BOOLEAN) RETURNS NUMBER ->
-  CASE WHEN CURRENT_ROLE() = 'WI_CHRO_ROLE' AND small THEN NULL ELSE val END;
+  CASE WHEN CURRENT_ROLE() IN ('WORKFORCE_DEMO_ROLE', 'WI_COMP_ROLE') OR NOT small THEN val ELSE NULL END;
 -- Business unit row access: the HRBP sees only the BUs mapped in BU_ACCESS
 CREATE OR REPLACE ROW ACCESS POLICY BU_ROW_ACCESS AS (bu STRING) RETURNS BOOLEAN ->
   CURRENT_ROLE() IN ('WORKFORCE_DEMO_ROLE', 'WI_COMP_ROLE', 'WI_CHRO_ROLE')
   OR EXISTS (SELECT 1 FROM BU_ACCESS a WHERE a.role_name = CURRENT_ROLE() AND a.business_unit = bu);
--- Minimum group size: the CHRO must aggregate, and groups under 10 people go to a remainder group
+-- Minimum group size on HR records: the owner, HRBP, and compensation analyst may read rows; every
+-- other role, including the CHRO, must aggregate into groups of 10 or more
 CREATE OR REPLACE AGGREGATION POLICY MIN_GROUP_10 AS () RETURNS AGGREGATION_CONSTRAINT ->
-  CASE WHEN CURRENT_ROLE() = 'WI_CHRO_ROLE' THEN AGGREGATION_CONSTRAINT(MIN_GROUP_SIZE => 10)
-       ELSE NO_AGGREGATION_CONSTRAINT() END;
+  CASE WHEN CURRENT_ROLE() IN ('WORKFORCE_DEMO_ROLE', 'WI_HRBP_ROLE', 'WI_COMP_ROLE') THEN NO_AGGREGATION_CONSTRAINT()
+       ELSE AGGREGATION_CONSTRAINT(MIN_GROUP_SIZE => 10) END;
+-- Attrition scores: no persona can read an individual score. The HRBP and compensation analyst see
+-- groups of 3 or more (teams); every other role, including the CHRO, needs groups of 10.
+CREATE OR REPLACE AGGREGATION POLICY RISK_MIN_GROUP AS () RETURNS AGGREGATION_CONSTRAINT ->
+  CASE WHEN CURRENT_ROLE() = 'WORKFORCE_DEMO_ROLE' THEN NO_AGGREGATION_CONSTRAINT()
+       WHEN CURRENT_ROLE() IN ('WI_HRBP_ROLE', 'WI_COMP_ROLE') THEN AGGREGATION_CONSTRAINT(MIN_GROUP_SIZE => 3)
+       ELSE AGGREGATION_CONSTRAINT(MIN_GROUP_SIZE => 10) END;
 
 ALTER TABLE COMPENSATION MODIFY COLUMN base_salary SET MASKING POLICY PAY_MASK;
 ALTER TABLE COMPENSATION MODIFY COLUMN bonus_target SET MASKING POLICY PAY_MASK;
+ALTER TABLE COMPENSATION MODIFY COLUMN band_min SET MASKING POLICY PAY_MASK;
+ALTER TABLE COMPENSATION MODIFY COLUMN band_mid SET MASKING POLICY PAY_MASK;
+ALTER TABLE COMPENSATION MODIFY COLUMN band_max SET MASKING POLICY PAY_MASK;
+ALTER TABLE COMPENSATION MODIFY COLUMN compa_ratio SET MASKING POLICY COMPA_MASK;
 ALTER TABLE EMPLOYEES MODIFY COLUMN gender SET MASKING POLICY PROTECTED_ATTR_MASK;
 ALTER TABLE EMPLOYEES MODIFY COLUMN ethnicity SET MASKING POLICY PROTECTED_ATTR_MASK;
 ALTER TABLE PAY_EQUITY_CELLS MODIFY COLUMN raw_gap_pct SET MASKING POLICY SMALL_CELL_GAP_MASK USING (raw_gap_pct, small_cell);
@@ -314,6 +359,9 @@ ALTER TABLE ENGAGEMENT_SURVEY ADD ROW ACCESS POLICY BU_ROW_ACCESS ON (business_u
 ALTER TABLE SURVEY_AI ADD ROW ACCESS POLICY BU_ROW_ACCESS ON (business_unit);
 ALTER TABLE EMPLOYEE_RISK ADD ROW ACCESS POLICY BU_ROW_ACCESS ON (business_unit);
 ALTER TABLE PAY_EQUITY_CELLS ADD ROW ACCESS POLICY BU_ROW_ACCESS ON (business_unit);
+-- Defense in depth: the feature dynamic table isn't granted to any persona (section 9), and it also
+-- carries the row access and minimum-group policies.
+ALTER DYNAMIC TABLE EMPLOYEE_FEATURES ADD ROW ACCESS POLICY BU_ROW_ACCESS ON (business_unit);
 
 ALTER TABLE EMPLOYEES SET AGGREGATION POLICY MIN_GROUP_10;
 ALTER TABLE COMPENSATION SET AGGREGATION POLICY MIN_GROUP_10;
@@ -322,7 +370,8 @@ ALTER TABLE PROMOTIONS SET AGGREGATION POLICY MIN_GROUP_10;
 ALTER TABLE TERMINATIONS SET AGGREGATION POLICY MIN_GROUP_10;
 ALTER TABLE ENGAGEMENT_SURVEY SET AGGREGATION POLICY MIN_GROUP_10;
 ALTER TABLE SURVEY_AI SET AGGREGATION POLICY MIN_GROUP_10;
-ALTER TABLE EMPLOYEE_RISK SET AGGREGATION POLICY MIN_GROUP_10;
+ALTER TABLE EMPLOYEE_RISK SET AGGREGATION POLICY RISK_MIN_GROUP;
+ALTER DYNAMIC TABLE EMPLOYEE_FEATURES SET AGGREGATION POLICY MIN_GROUP_10;
 
 -- --------------------------------------------------------------------------
 -- 8. SEMANTIC VIEW AND CORTEX AGENT for "Ask HR data"
@@ -409,12 +458,54 @@ GRANT USAGE ON DATABASE WORKFORCE_INTEL_DB TO ROLE WI_CHRO_ROLE;
 GRANT USAGE ON SCHEMA HR TO ROLE WI_HRBP_ROLE;
 GRANT USAGE ON SCHEMA HR TO ROLE WI_COMP_ROLE;
 GRANT USAGE ON SCHEMA HR TO ROLE WI_CHRO_ROLE;
-GRANT SELECT ON ALL TABLES IN SCHEMA HR TO ROLE WI_HRBP_ROLE;
-GRANT SELECT ON ALL TABLES IN SCHEMA HR TO ROLE WI_COMP_ROLE;
-GRANT SELECT ON ALL TABLES IN SCHEMA HR TO ROLE WI_CHRO_ROLE;
-GRANT SELECT ON ALL VIEWS IN SCHEMA HR TO ROLE WI_HRBP_ROLE;
-GRANT SELECT ON ALL VIEWS IN SCHEMA HR TO ROLE WI_COMP_ROLE;
-GRANT SELECT ON ALL VIEWS IN SCHEMA HR TO ROLE WI_CHRO_ROLE;
+-- Explicit grants only. EMPLOYEE_FEATURES, V_TRAINING, V_SCORING, and BU_ACCESS stay owner-only:
+-- they hold unmasked, employee-level model inputs. PAY_EQUITY_CELLS and V_TEAM_MEMBERS are not
+-- granted to the HRBP, and V_TEAM_MEMBERS is granted only to the compensation analyst.
+GRANT SELECT ON TABLE EMPLOYEES TO ROLE WI_HRBP_ROLE;
+GRANT SELECT ON TABLE EMPLOYEES TO ROLE WI_COMP_ROLE;
+GRANT SELECT ON TABLE EMPLOYEES TO ROLE WI_CHRO_ROLE;
+GRANT SELECT ON TABLE COMPENSATION TO ROLE WI_HRBP_ROLE;
+GRANT SELECT ON TABLE COMPENSATION TO ROLE WI_COMP_ROLE;
+GRANT SELECT ON TABLE COMPENSATION TO ROLE WI_CHRO_ROLE;
+GRANT SELECT ON TABLE TERMINATIONS TO ROLE WI_HRBP_ROLE;
+GRANT SELECT ON TABLE TERMINATIONS TO ROLE WI_COMP_ROLE;
+GRANT SELECT ON TABLE TERMINATIONS TO ROLE WI_CHRO_ROLE;
+GRANT SELECT ON TABLE REQUISITIONS TO ROLE WI_HRBP_ROLE;
+GRANT SELECT ON TABLE REQUISITIONS TO ROLE WI_COMP_ROLE;
+GRANT SELECT ON TABLE REQUISITIONS TO ROLE WI_CHRO_ROLE;
+GRANT SELECT ON TABLE ENGAGEMENT_SURVEY TO ROLE WI_HRBP_ROLE;
+GRANT SELECT ON TABLE ENGAGEMENT_SURVEY TO ROLE WI_COMP_ROLE;
+GRANT SELECT ON TABLE ENGAGEMENT_SURVEY TO ROLE WI_CHRO_ROLE;
+GRANT SELECT ON TABLE SURVEY_AI TO ROLE WI_HRBP_ROLE;
+GRANT SELECT ON TABLE SURVEY_AI TO ROLE WI_COMP_ROLE;
+GRANT SELECT ON TABLE SURVEY_AI TO ROLE WI_CHRO_ROLE;
+GRANT SELECT ON TABLE EMPLOYEE_RISK TO ROLE WI_HRBP_ROLE;
+GRANT SELECT ON TABLE EMPLOYEE_RISK TO ROLE WI_COMP_ROLE;
+GRANT SELECT ON TABLE EMPLOYEE_RISK TO ROLE WI_CHRO_ROLE;
+GRANT SELECT ON TABLE FEATURE_IMPORTANCE TO ROLE WI_HRBP_ROLE;
+GRANT SELECT ON TABLE FEATURE_IMPORTANCE TO ROLE WI_COMP_ROLE;
+GRANT SELECT ON TABLE FEATURE_IMPORTANCE TO ROLE WI_CHRO_ROLE;
+GRANT SELECT ON TABLE PAY_EQUITY_CELLS TO ROLE WI_COMP_ROLE;
+GRANT SELECT ON TABLE PAY_EQUITY_CELLS TO ROLE WI_CHRO_ROLE;
+GRANT SELECT ON TABLE ACTIONS TO ROLE WI_HRBP_ROLE;
+GRANT SELECT ON TABLE ACTIONS TO ROLE WI_COMP_ROLE;
+GRANT SELECT ON TABLE ACTIONS TO ROLE WI_CHRO_ROLE;
+GRANT SELECT ON VIEW V_WORKFORCE TO ROLE WI_HRBP_ROLE;
+GRANT SELECT ON VIEW V_WORKFORCE TO ROLE WI_COMP_ROLE;
+GRANT SELECT ON VIEW V_WORKFORCE TO ROLE WI_CHRO_ROLE;
+GRANT SELECT ON VIEW V_EXITS TO ROLE WI_HRBP_ROLE;
+GRANT SELECT ON VIEW V_EXITS TO ROLE WI_COMP_ROLE;
+GRANT SELECT ON VIEW V_EXITS TO ROLE WI_CHRO_ROLE;
+GRANT SELECT ON VIEW V_OPEN_REQS TO ROLE WI_HRBP_ROLE;
+GRANT SELECT ON VIEW V_OPEN_REQS TO ROLE WI_COMP_ROLE;
+GRANT SELECT ON VIEW V_OPEN_REQS TO ROLE WI_CHRO_ROLE;
+GRANT SELECT ON VIEW V_TEAMS TO ROLE WI_HRBP_ROLE;
+GRANT SELECT ON VIEW V_TEAMS TO ROLE WI_COMP_ROLE;
+GRANT SELECT ON VIEW V_TEAMS TO ROLE WI_CHRO_ROLE;
+GRANT SELECT ON VIEW V_MONTHS TO ROLE WI_HRBP_ROLE;
+GRANT SELECT ON VIEW V_MONTHS TO ROLE WI_COMP_ROLE;
+GRANT SELECT ON VIEW V_MONTHS TO ROLE WI_CHRO_ROLE;
+GRANT SELECT ON VIEW V_TEAM_MEMBERS TO ROLE WI_COMP_ROLE;
 GRANT INSERT ON TABLE ACTIONS TO ROLE WI_HRBP_ROLE;
 GRANT INSERT ON TABLE ACTIONS TO ROLE WI_COMP_ROLE;
 GRANT INSERT ON TABLE ACTIONS TO ROLE WI_CHRO_ROLE;

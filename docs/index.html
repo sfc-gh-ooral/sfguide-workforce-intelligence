@@ -128,7 +128,7 @@
     <div class="wrap">
       <div class="eyebrow">Snowflake example · Financial services · Human resources</div>
       <h1>HR answers in plain English, <span class="aurora">governed by role.</span></h1>
-      <p class="lede">A regional bank's HR business partners wait one to two weeks for every new report. Attrition modeling runs quarterly in spreadsheets, pay data sits in separate exports, and every view has to respect who is allowed to see what. This example puts headcount, attrition risk, pay equity, and survey feedback in one app on Snowflake. Masking, row access, and minimum-group-size policies follow every chart, AI summary, and agent answer.</p>
+      <p class="lede">In this example scenario, a regional bank's HR business partners can't query workforce data themselves, so every new report waits in a data-engineering queue. Attrition modeling runs quarterly in spreadsheets, pay data sits in separate exports, and every view has to respect who is allowed to see what. This example puts headcount, attrition risk, pay equity, and survey feedback in one app on Snowflake. Masking, row access, and minimum-group-size policies follow every chart, AI summary, and agent answer.</p>
       <div class="ctas">
         <a class="btn btn-a" href="try/">Try the example in your browser</a>
         <a class="btn btn-g" href="https://github.com/sfc-gh-ooral/sfguide-workforce-intelligence">View the repository</a>
@@ -139,7 +139,7 @@
         <span class="fact"><b>Cost:</b> about half an XSMALL credit, plus Cortex AI tokens</span>
         <span class="fact"><b>Data:</b> synthetic, about 12,000 employees</span>
       </div>
-      <figure class="heroshot"><img src="images/01-overview-hrbp.png" width="2000" height="1250" alt="Workforce overview as the HR business partner: Operations headcount, hires, exits, rolling attrition of 18.8 percent, time to fill, and Payment Operations voluntary exits up 265 percent, with row access and masking policy chips"></figure>
+      <figure class="heroshot"><img src="images/01-overview-hrbp.png" width="2000" height="1250" alt="Workforce overview as the HR business partner: Operations headcount, hires, exits, rolling attrition of 18.8 percent, time to fill, and Payment Operations voluntary exits up 265 percent, with row access and masking policy chips"><figcaption style="margin:0;padding:12px 18px;border-top:1px solid var(--line)">The HR business partner's overview. Row access limits it to Operations, and pay is masked, before the app sees a row.</figcaption></figure>
     </div>
   </div>
 
@@ -148,7 +148,7 @@
       <div class="eyebrow">The problem</div>
       <h2>HR data is sensitive, scattered, and slow to answer.</h2>
       <div class="problem">
-        <div class="tile"><div class="n aurora">1–2 weeks</div><h3>for every new report</h3><p>HR partners can't query the data themselves, so each question goes into a data-engineering queue.</p></div>
+        <div class="tile"><div class="n aurora">A queue</div><h3>for every new report</h3><p>In the scenario, HR partners can't query the data themselves, so each question becomes a data-engineering ticket.</p></div>
         <div class="tile"><div class="n aurora">Quarterly</div><h3>attrition models</h3><p>Risk is estimated in spreadsheets after people have already left, not while there's time to act.</p></div>
         <div class="tile"><div class="n aurora">Many exports</div><h3>and manual equity checks</h3><p>Compensation, performance, hiring, and survey data live apart, so pay-equity work is slow and error-prone.</p></div>
       </div>
@@ -176,7 +176,7 @@
       <div class="story">
         <div class="beat">
           <div class="txt"><h3>The HR business partner sees banded pay, not salaries.</h3>
-            <p>The same employee records come back from Snowflake with base pay rounded down to a $10k band and protected attributes as <code>***</code>. That's enough to read the pay mix, but not enough to work out what anyone earns.</p>
+            <p>The same employee records come back from Snowflake with base, bonus, and pay-band amounts rounded down to $10k, compa-ratio rounded to one decimal, and protected attributes as <code>***</code>. That's enough to read the pay mix, but not an exact salary: in a live test, compa-ratio × band midpoint landed within $1k of true pay for 33 of 2,238 people.</p>
             <div class="cap"><span>Masking policies</span><span>Row access policy</span></div></div>
           <figure><img src="images/02-pay-masked-hrbp.png" width="2000" height="1250" loading="lazy" alt="Pay equity as the HR business partner: a headcount histogram by masked $10k pay band and an employee table with salary bands and masked gender and ethnicity"><figcaption>PAY_MASK and PROTECTED_ATTR_MASK are applied by Snowflake before the data reaches the app.</figcaption></figure>
         </div>
@@ -201,20 +201,20 @@
         <div class="beat">
           <div class="txt"><h3>The CHRO sees aggregates, with small groups suppressed.</h3>
             <p>For the CHRO, any group under 10 people is merged into one remainder row with blank labels. That's 1,515 people across hundreds of small cells. Team drill-downs aren't available, and pay gaps for small cells come back blank.</p>
-            <div class="cap"><span>Aggregation policy</span><span>Conditional masking</span></div></div>
+            <div class="cap"><span>Aggregation policy (Preview)</span><span>Conditional masking</span></div></div>
           <figure><img src="images/07-attrition-chro.png" width="2000" height="1250" loading="lazy" alt="Attrition risk as the CHRO: risk by job family, location, and level, plus a remainder group of 1,515 people merged by the aggregation policy"><figcaption>MIN_GROUP_10 is an aggregation policy. Snowflake creates the remainder group itself.</figcaption></figure>
         </div>
         <div class="beat">
           <div class="txt"><h3>Ask in plain English. The policies still apply.</h3>
             <p>A Cortex Agent answers questions through a semantic view. Ask about Technology requisitions as the HRBP and the agent explains that the data is hidden for that role, instead of returning a misleading zero. Ask as the compensation analyst and you get the number.</p>
             <div class="cap"><span>Cortex Agents</span><span>Cortex Analyst</span><span>Semantic View</span></div></div>
-          <figure><img src="images/08-ask-hrbp.png" width="2000" height="1250" loading="lazy" alt="Ask HR data as the HR business partner: answers about Payment Operations exits and a reply that Technology requisitions aren't visible to this role"><figcaption>The agent runs as the caller's role, so its generated SQL passes through the same policies.</figcaption></figure>
+          <figure><img src="images/08-ask-hrbp.png" width="2000" height="1250" loading="lazy" alt="Ask HR data as the HR business partner: why people are leaving Payment Operations, answered with voluntary exits since the shift change and the top exit reason, and a reply that Technology requisitions aren't visible to this role"><figcaption>The agent runs as the caller's role, so its generated SQL passes through the same policies.</figcaption></figure>
         </div>
         <div class="beat">
           <div class="txt"><h3>People make the call, and it's recorded.</h3>
             <p>From a team or a pay cell, the reader drafts a conversation plan with AI, then records a decision: flag, assign, escalate, or add a note. In live mode each decision is written to a Snowflake table stamped with the role that made it.</p>
             <div class="cap"><span>AI_COMPLETE</span><span>Snowflake table</span></div></div>
-          <figure><img src="images/04-team-brief-hrbp.png" width="2000" height="1250" loading="lazy" alt="Team drill-down: modeled risk, top drivers, people by risk band, and an AI-drafted conversation plan for the manager"><figcaption>The conversation plan uses team-level inputs only. Individual scores aren't sent to the model.</figcaption></figure>
+          <figure><img src="images/04-team-brief-hrbp.png" width="2000" height="1250" loading="lazy" alt="Team drill-down: modeled team risk, top drivers, people by risk band with small bands withheld, and an AI-drafted conversation plan for the manager"><figcaption>The conversation plan uses team-level inputs only. Individual scores aren't sent to the model.</figcaption></figure>
         </div>
       </div>
     </div>
@@ -226,9 +226,9 @@
       <h2>Snowflake capabilities, as used in live mode.</h2>
       <p class="sub">Each capability below ran in live mode against the example's synthetic data. Links go to the Snowflake documentation.</p>
       <div class="caps">
-        <div class="capr"><b><a href="https://docs.snowflake.com/en/user-guide/security-column-ddm-intro">Masking policies</a></b><span>Pay rounded to $10k bands and protected attributes hidden for the HRBP. Pay gaps hidden for the CHRO's small cells (conditional masking).</span></div>
+        <div class="capr"><b><a href="https://docs.snowflake.com/en/user-guide/security-column-ddm-intro">Masking policies</a></b><span>Pay, band amounts, and compa-ratio rounded for the HRBP, and protected attributes hidden, using allowlists of roles. Pay gaps hidden for the CHRO's small cells (conditional masking).</span></div>
         <div class="capr"><b><a href="https://docs.snowflake.com/en/user-guide/security-row-intro">Row access policy</a></b><span>A role-to-business-unit mapping table limits the HRBP to Operations on every table.</span></div>
-        <div class="capr"><b><a href="https://docs.snowflake.com/en/user-guide/aggregation-policies">Aggregation policy</a></b><span>The CHRO must aggregate, and groups under 10 people are merged into a remainder group.</span></div>
+        <div class="capr"><b><a href="https://docs.snowflake.com/en/user-guide/aggregation-policies">Aggregation policies (Preview)</a></b><span>Preview. The CHRO must aggregate in groups of 10 or more, and no persona can read an individual risk score (groups of 3 or more).</span></div>
         <div class="capr"><b><a href="https://docs.snowflake.com/en/user-guide/ml-functions/classification">ML Classification</a></b><span>Attrition model trained in SQL, with feature importance used to weight team drivers.</span></div>
         <div class="capr"><b><a href="https://docs.snowflake.com/en/user-guide/dynamic-tables-about">Dynamic table</a> and <a href="https://docs.snowflake.com/en/user-guide/tasks-intro">task</a></b><span>Model features refresh weekly. A weekly retraining task is created suspended.</span></div>
         <div class="capr"><b><a href="https://docs.snowflake.com/en/user-guide/snowflake-cortex/aisql">Cortex AI functions</a></b><span>AI_SENTIMENT and AI_CLASSIFY label about 10,700 comments. AI_AGG and AI_COMPLETE write the summaries and explanations.</span></div>
@@ -247,7 +247,7 @@
 <pre>git clone https://github.com/sfc-gh-ooral/sfguide-workforce-intelligence
 cd sfguide-workforce-intelligence
 npm install &amp;&amp; npm run dev</pre></div>
-        <div class="tile"><h3>Live: in your Snowflake account</h3><p>Run <code>sql/setup.sql</code> as ACCOUNTADMIN in a Snowsight worksheet (about 3 minutes on XSMALL), add key-pair settings to <code>.env.local</code>, and switch the app to Live. <code>sql/cleanup.sql</code> removes everything.</p>
+        <div class="tile"><h3>Live: in your Snowflake account</h3><p>Run <code>sql/setup.sql</code> as ACCOUNTADMIN in a Snowsight worksheet (about 2–3 minutes on XSMALL), add key-pair settings to <code>.env.local</code>, and switch the app to Live. <code>sql/cleanup.sql</code> removes everything.</p>
 <pre>Requires Enterprise Edition (policies) and
 Cortex AI, Cortex Analyst, and Cortex Agents
 in your region or cross-region inference.</pre></div>
