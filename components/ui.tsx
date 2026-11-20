@@ -17,7 +17,7 @@ export function SampleTag({ children = 'Sample AI response' }: { children?: Reac
 
 export function Card({ children, className = '', title, eyebrow, actions }: { children: ReactNode; className?: string; title?: ReactNode; eyebrow?: string; actions?: ReactNode }) {
   return (
-    <section className={`card p-5 fade-up ${className}`}>
+    <section className={`card p-5 fade-up max-lg:min-w-0 ${className}`}>
       {(title || actions || eyebrow) && (
         <header className="flex flex-wrap items-start justify-between gap-3 mb-4">
           <div>
@@ -45,7 +45,7 @@ export function CountUp({ value, format = (v) => Math.round(v).toLocaleString() 
 
 export function Kpi({ label, value, format, sub, tone = 'teal', icon }: { label: string; value: number; format?: (v: number) => string; sub?: ReactNode; tone?: 'teal' | 'violet' | 'coral' | 'amber'; icon?: ReactNode }) {
   return (
-    <div className="card card-hover p-4 fade-up relative overflow-hidden">
+    <div className="card card-hover p-4 fade-up relative overflow-hidden max-lg:min-w-0">
       <div className="absolute -right-6 -top-6 w-24 h-24 rounded-full opacity-[.13]" style={{ background: `var(--${tone})` }} aria-hidden />
       <div className="flex items-center gap-2 eyebrow">{icon}{label}</div>
       <div className="font-display text-[32px] font-semibold mt-1 leading-none"><CountUp value={value} format={format} /></div>

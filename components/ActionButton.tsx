@@ -54,7 +54,7 @@ export function ActionButton({ subjectType, subjectId, subjectLabel, defaultActi
       <button className="btn btn-ghost" onClick={() => setOpen(true)}><ClipboardCheck className="w-4 h-4" aria-hidden />Record a decision</button>
       {open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(15,10,25,.55)' }} onClick={() => setOpen(false)}>
-          <div role="dialog" aria-modal="true" aria-labelledby="act-title" className="card p-5 w-full max-w-md" style={{ background: 'var(--card-solid)' }} onClick={(e) => e.stopPropagation()}>
+          <div role="dialog" aria-modal="true" aria-labelledby="act-title" className="card p-5 w-full max-w-md max-h-[calc(100dvh-2rem)] overflow-y-auto" style={{ background: 'var(--card-solid)' }} onClick={(e) => e.stopPropagation()}>
             <div className="flex items-start justify-between mb-1">
               <h2 id="act-title" className="font-display text-lg font-semibold">Record a decision</h2>
               <button onClick={() => setOpen(false)} aria-label="Close" className="p-1"><X className="w-4 h-4" /></button>

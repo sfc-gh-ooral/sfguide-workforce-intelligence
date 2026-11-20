@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { BarChart3, Database, FlaskConical, Gauge, MessageSquareText, Moon, Scale, ShieldCheck, Sun, UsersRound, X, ClipboardList } from 'lucide-react';
-import { useEffect, useState, type ReactNode } from 'react';
+import { BarChart3, Database, FlaskConical, Gauge, Menu, MessageSquareText, Moon, Scale, ShieldCheck, Sun, UsersRound, X, ClipboardList } from 'lucide-react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { HOSTED_EXAMPLE } from '@/lib/hosted';
 import { setPreferredMode, type Mode } from '@/lib/mode';
 import { PERSONA_IDS, PERSONAS } from '@/lib/personas';
@@ -80,7 +80,7 @@ function ModeSwitch() {
       </div>
       {help && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(15,10,25,.6)' }} onClick={() => setHelp(false)}>
-          <div role="dialog" aria-modal="true" aria-labelledby="live-help" className="card max-w-lg w-full p-5" style={{ background: 'var(--card-solid)' }} onClick={(e) => e.stopPropagation()}>
+          <div role="dialog" aria-modal="true" aria-labelledby="live-help" className="card max-w-lg w-full p-5 max-h-[calc(100dvh-2rem)] overflow-y-auto" style={{ background: 'var(--card-solid)' }} onClick={(e) => e.stopPropagation()}>
             <div className="flex items-start justify-between gap-3 mb-3">
               <h2 id="live-help" className="font-display text-lg font-semibold">Connect Snowflake to use Live mode</h2>
               <button onClick={() => setHelp(false)} aria-label="Close" className="p-1"><X className="w-4 h-4" /></button>
@@ -140,9 +140,21 @@ export function PageHeader({ eyebrow, title, children }: { eyebrow: string; titl
 export function Shell({ children }: { children: ReactNode }) {
   const path = usePathname();
   const active = (href: string) => (href === '/' ? path === '/' : path.startsWith(href) || (href === '/attrition' && path.startsWith('/team')));
+  // Below lg the rail is hidden and the nav opens from a menu button in the header.
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuBtn = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLElement>(null);
+  useEffect(() => { setMenuOpen(false); }, [path]);
+  useEffect(() => {
+    if (!menuOpen) return;
+    menuRef.current?.querySelector('a')?.focus();
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') { setMenuOpen(false); menuBtn.current?.focus(); } };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [menuOpen]);
   return (
-    <div className="min-h-screen md:grid md:grid-cols-[248px_1fr]">
-      <aside className="rail hidden md:flex flex-col gap-6 p-4 sticky top-0 h-screen">
+    <div className="min-h-screen lg:grid lg:grid-cols-[248px_1fr]">
+      <aside className="rail hidden lg:flex flex-col gap-6 p-4 sticky top-0 h-screen">
         <div className="pt-2"><Wordmark /></div>
         <nav className="flex flex-col gap-1" aria-label="Main">
           {NAV.map(({ href, label, icon: Icon }) => (
@@ -154,18 +166,27 @@ export function Shell({ children }: { children: ReactNode }) {
           Synthetic data as of Oct 31, 2026. Risk scores are illustrative and aren&apos;t for decisions about individual employees.
         </div>
       </aside>
-      <div className="min-w-0 flex flex-col">
-        <header className="sticky top-0 z-30 backdrop-blur-md border-b" style={{ background: 'color-mix(in srgb, var(--bg) 82%, transparent)', borderColor: 'var(--line)' }}>
+      <div className="min-w-0 flex flex-col max-lg:overflow-x-clip">
+        <header className="lg:sticky top-0 z-30 lg:backdrop-blur-md border-b" style={{ background: 'color-mix(in srgb, var(--bg) 82%, transparent)', borderColor: 'var(--line)' }}>
           <div className="flex flex-wrap items-center justify-between gap-3 px-4 md:px-8 py-3">
-            <div className="md:hidden rail rounded-xl px-2 py-1.5"><Wordmark /></div>
+            <div className="lg:hidden flex w-full items-center justify-between gap-3">
+              <div className="rail rounded-xl px-2 py-1.5"><Wordmark /></div>
+              <button ref={menuBtn} className="btn btn-ghost !p-2" onClick={() => setMenuOpen((o) => !o)}
+                aria-expanded={menuOpen} aria-controls="mobile-nav" aria-label={menuOpen ? 'Close menu' : 'Open menu'}>
+                {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
+            </div>
             <PersonaSwitch />
             <div className="flex items-center gap-2"><ModeSwitch /><ThemeToggle /></div>
           </div>
-          <nav className="md:hidden flex gap-1 overflow-x-auto px-3 pb-2" aria-label="Main">
-            {NAV.map(({ href, label }) => <Link key={href} href={href} className={`chip ${active(href) ? 'chip-policy' : ''}`}>{label}</Link>)}
+          <nav ref={menuRef} id="mobile-nav" hidden={!menuOpen} className="rail lg:hidden flex-col gap-1 p-3 [&:not([hidden])]:flex" aria-label="Main">
+            {NAV.map(({ href, label, icon: Icon }) => (
+              <Link key={href} href={href} onClick={() => setMenuOpen(false)} aria-current={active(href) ? 'page' : undefined}
+                className={`rail-link ${active(href) ? 'active' : ''}`}><Icon className="w-[18px] h-[18px]" aria-hidden />{label}</Link>
+            ))}
           </nav>
         </header>
-        <main className="canvas flex-1 px-4 md:px-8 py-6 md:py-8 max-w-[1400px] w-full">{children}</main>
+        <main className="canvas flex-1 min-w-0 px-4 md:px-8 py-6 md:py-8 max-w-[1400px] w-full">{children}</main>
         <footer className="px-4 md:px-8 py-5 text-[11.5px] border-t" style={{ color: 'var(--muted)', borderColor: 'var(--line)' }}>
           Illustrative example on synthetic data. Logic is simplified and not production-ready. This isn&apos;t HR, legal, regulatory, or compliance advice, and risk scores must not be used for decisions about individual employees. Not an official Snowflake product and not supported by Snowflake Support.
         </footer>
